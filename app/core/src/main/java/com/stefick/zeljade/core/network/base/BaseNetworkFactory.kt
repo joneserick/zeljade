@@ -1,5 +1,6 @@
 package com.stefick.zeljade.core.network.base
 
+import com.stefick.zeljade.core.network.adapter.NetworkCallAdapterFactory
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -14,6 +15,7 @@ abstract class BaseNetworkFactory<Api>(private val apiClass: Class<Api>) {
         Retrofit.Builder()
             .baseUrl("")
             .addConverterFactory(GsonConverterFactory.create())
+            .addCallAdapterFactory(NetworkCallAdapterFactory.create())
             .build()
             .create(apiClass)
 
