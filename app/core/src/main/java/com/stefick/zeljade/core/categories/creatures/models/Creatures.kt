@@ -1,17 +1,10 @@
 package com.stefick.zeljade.core.categories.creatures.models
 
 import com.google.gson.annotations.SerializedName
-import com.stefick.zeljade.core.categories.Category
-import com.stefick.zeljade.core.categories.Drop
+import com.stefick.zeljade.core.models.CategoryItem
 
 data class CreaturesResponse(
-    val food: List<Creature>,
+    val food: List<CategoryItem>,
     @SerializedName("non_food")
-    val nonFood: List<Creature>
+    val nonFood: List<CategoryItem>
 )
-
-data class Creature(
-    var cookingEffect: CharSequence? = null,
-    var heartsRecovered: Short? = null,
-    var drops: List<Drop>? = null
-) : Category()
