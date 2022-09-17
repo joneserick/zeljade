@@ -1,5 +1,6 @@
 package com.stefick.zeljade.core.network.adapter
 
+import android.accounts.NetworkErrorException
 import com.stefick.zeljade.core.network.base.NetworkResultBase
 import com.stefick.zeljade.core.network.base.resultFromNetworkResponse
 import okhttp3.Request
@@ -9,8 +10,10 @@ import okio.Timeout
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Converter
+import retrofit2.HttpException
 import retrofit2.Response
 import java.util.concurrent.TimeUnit
+import java.util.concurrent.TimeoutException
 
 class NetworkCall<T : Any, E : Any>(
     private val delegate: Call<T>,
@@ -26,7 +29,9 @@ class NetworkCall<T : Any, E : Any>(
             }
 
             override fun onFailure(call: Call<T>, throwable: Throwable) {
-                val networkResponse = when(throwable) {
+                val networkResponse = when (throwable) {
+                    is HttpException -> NetworkResultBase.NetworkError(throwable, 500)
+                    is TimeoutException -> NetworkResultBase.NetworkError(throwable, 408)
                     is IOException -> NetworkResultBase.NetworkError(throwable, -1)
                     else -> NetworkResultBase.Unknown(throwable, -1, null)
                 }
@@ -36,7 +41,8 @@ class NetworkCall<T : Any, E : Any>(
         })
     }
 
-    override fun clone(): Call<NetworkResultBase<T, E>> = NetworkCall(delegate.clone(), errorConverter)
+    override fun clone(): Call<NetworkResultBase<T, E>> =
+        NetworkCall(delegate.clone(), errorConverter)
 
     override fun execute(): Response<NetworkResultBase<T, E>> = throw NotImplementedError()
 

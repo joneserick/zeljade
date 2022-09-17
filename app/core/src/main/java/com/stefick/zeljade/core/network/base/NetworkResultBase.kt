@@ -17,7 +17,7 @@ sealed class NetworkResultBase<out T : Any?, out E : Any?> {
     data class ApiError<U : Any>(val body: U, val code: Int, val url: String? = null) :
         NetworkResultBase<Nothing, U>()
 
-    data class NetworkError(val error: IOException, val code: Int) :
+    data class NetworkError(val error: Throwable, val code: Int) :
         NetworkResultBase<Nothing, Nothing>()
 
     data class Unknown(

@@ -3,6 +3,7 @@ package com.stefick.zeljade.core.repository
 import com.stefick.zeljade.core.network.base.NetworkResultBase
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import okhttp3.ResponseBody
 
 abstract class Repository {
 
@@ -14,7 +15,7 @@ abstract class Repository {
 
         data class Error(val code: Int?, val response: NetworkResultBase<Any?, Any?>?) : Result()
 
-        data class Unknown(val code: Int?, val url: String? = null) : Result()
+        data class Unknown(val code: Int?, val url: String? = null, val responseBody: ResponseBody?) : Result()
     }
 
     protected fun <T, E> flowFromNetworkResponse(
@@ -26,7 +27,7 @@ abstract class Repository {
                 this.emit(Result.Success(request.body, request.code))
             }
             is NetworkResultBase.Unknown -> {
-                this.emit(Result.Unknown(request.code, request.url))
+                this.emit(Result.Unknown(request.code, request.url, request.responseBody))
             }
             is NetworkResultBase.ApiError<*> -> {
                 this.emit(Result.Failed(request.body, request.code, request.url))
