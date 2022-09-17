@@ -1,23 +1,29 @@
-package com.stefick.zeljade.core.categories
+package com.stefick.zeljade.core.models
 
 import com.google.gson.annotations.SerializedName
 
-abstract class CategoryItem {
-    protected var id: Short? = null
-    protected var name: CharSequence? = null
-    protected var description: CharSequence? = null
-    protected var category: CharSequence? = null
-    protected var image: CharSequence? = null
-    protected var drops: List<Drop>? = null
+data class CategoryItem(
+    var id: Int? = null,
+    var name: String? = null,
+    var description: String? = null,
+    var category: String? = null,
+    var image: String? = null,
+    var drops: List<String>? = null,
+    var food: List<CategoryItem>? = null,
+    var attack: Int? = null,
+    var defense: Int? = null,
+
+    @SerializedName("non_food")
+    var nonFood: List<CategoryItem>? = null,
 
     @SerializedName("cooking_effect")
-    protected var cookingEffect: CharSequence? = null
+    var cookingEffect: String? = null,
 
     @SerializedName("hearts_recovered")
-    protected var heartsRecovered: Short? = null
+    var heartsRecovered: Double? = null,
 
     @SerializedName("common_locations")
-    protected var commonLocations: List<CharSequence>? = null
-}
+    var commonLocations: List<String>? = null
+)
 
 

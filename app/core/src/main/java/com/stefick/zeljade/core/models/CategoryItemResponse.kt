@@ -1,5 +1,5 @@
-package com.stefick.zeljade.core.categories
+package com.stefick.zeljade.core.models
 
-data class CategoryItemRequest(
+data class CategoryItemResponse(
     var data: List<CategoryItem>
-): CategoryItem()
+)
