@@ -37,7 +37,7 @@ class CompendiumRepositoryTest {
 
 
     @Test
-    fun shouldReturnCategoriesWhenRequestingBySpecifCategory() {
+    fun shouldSuccessfullyReturnCategoriesWhenRequestingBySpecificCategory() {
         val category = "monsters"
         val categoryItemResponse = CategoryMocks.getMockCategory(category)
 
@@ -83,7 +83,8 @@ class CompendiumRepositoryTest {
             repository.requestDataByCategory(category).collect { result ->
                 val response = result as Result.Failed<*>
 
-                Assert.assertTrue(response.result is ErrorResponse)
+                assert(response.result is ErrorResponse)
+
                 Assert.assertEquals(response.code, code)
                 Assert.assertEquals(response.url, mockedURL)
             }
@@ -92,7 +93,7 @@ class CompendiumRepositoryTest {
 
 
     @Test
-    fun shouldReturnErrorWhenRequestFailsDueToAnException() {
+    fun shouldReturnErrorWhenRequestFailsDueToAServerException() {
         val category = "monsters"
         val message = "Error while trying to load"
         val code = 500
@@ -110,8 +111,9 @@ class CompendiumRepositoryTest {
             repository.requestDataByCategory(category).collect { result ->
                 val response = result as Result.Error
 
-                Assert.assertTrue(response.response is NetworkResultBase<*, *>)
-                Assert.assertTrue((response.response as NetworkResultBase.NetworkError).error is HttpException)
+                assert(response.response is NetworkResultBase<*, *>)
+                assert((response.response as NetworkResultBase.NetworkError).error is HttpException)
+
                 Assert.assertEquals(response.code, code)
             }
         }
@@ -136,8 +138,9 @@ class CompendiumRepositoryTest {
 
             repository.requestDataByCategory(category).collect { result ->
                 val response = result as Result.Error
-                Assert.assertTrue(response.response is NetworkResultBase.NetworkError)
-                Assert.assertTrue((response.response as NetworkResultBase.NetworkError).error is TimeoutException)
+
+                assert(response.response is NetworkResultBase.NetworkError)
+                assert((response.response as NetworkResultBase.NetworkError).error is TimeoutException)
                 Assert.assertEquals(response.code, code)
             }
         }
@@ -162,8 +165,10 @@ class CompendiumRepositoryTest {
 
             repository.requestDataByCategory(category).collect { result ->
                 val response = result as Result.Error
-                Assert.assertTrue(response.response is NetworkResultBase.NetworkError)
-                Assert.assertTrue((response.response as NetworkResultBase.NetworkError).error is IOException)
+
+                assert(response.response is NetworkResultBase.NetworkError)
+                assert((response.response as NetworkResultBase.NetworkError).error is IOException)
+
                 Assert.assertEquals(response.code, code)
 
             }
@@ -193,7 +198,8 @@ class CompendiumRepositoryTest {
             repository.requestDataByCategory(category).collect { result ->
                 val response = result as Result.Unknown
 
-                Assert.assertTrue(response.url.equals(mockedURL))
+                assert(response.url.equals(mockedURL))
+
                 Assert.assertEquals(response.code, code)
                 Assert.assertEquals(response.responseBody, mockedResponseBody)
             }
