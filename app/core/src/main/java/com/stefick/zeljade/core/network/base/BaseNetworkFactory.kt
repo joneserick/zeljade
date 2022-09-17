@@ -13,7 +13,7 @@ abstract class BaseNetworkFactory<Api>(private val apiClass: Class<Api>) {
 
     private fun createApiReference(): Api =
         Retrofit.Builder()
-            .baseUrl("")
+            .baseUrl("https://botw-compendium.herokuapp.com/api/v2/")
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(NetworkCallAdapterFactory.create())
             .build()

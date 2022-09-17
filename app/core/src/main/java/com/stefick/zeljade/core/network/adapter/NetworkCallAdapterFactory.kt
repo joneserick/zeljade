@@ -1,6 +1,6 @@
 package com.stefick.zeljade.core.network.adapter
 
-import com.stefick.zeljade.core.network.base.Result
+import com.stefick.zeljade.core.network.base.NetworkResultBase
 import retrofit2.Call
 import retrofit2.CallAdapter
 import retrofit2.Retrofit
@@ -17,12 +17,25 @@ class NetworkCallAdapterFactory private constructor() : CallAdapter.Factory() {
         if (getRawType(returnType) != Call::class.java)
             return null
 
-        val callType = getParameterUpperBound(0, returnType as ParameterizedType)
-        if (getRawType(callType) != Result::class.java)
+        check(returnType is ParameterizedType) {
+            "Return type must be parametrized as Call<NetworkResultBase<T, E>>"
+        }
+
+        val responseType = getParameterUpperBound(0, returnType)
+        if (getRawType(responseType) != NetworkResultBase::class.java)
             return null
 
-        val resultType = getParameterUpperBound(0, callType as ParameterizedType)
-        return NetworkCallAdapter(resultType)
+        check(responseType is ParameterizedType) {
+            "Return type must be parametrized ad NetworkResultBase<T, E>"
+        }
+
+        val successResponseType = getParameterUpperBound(0, responseType)
+        val errorResponseType = getParameterUpperBound(1, responseType)
+
+        val errorConverter =
+            retrofit.nextResponseBodyConverter<Any>(null, errorResponseType, annotations)
+
+        return NetworkResultBaseAdapter<Any, Any>(successResponseType, errorConverter)
     }
 
     companion object {
