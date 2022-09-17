@@ -13,7 +13,6 @@ class HomePresenter(
     private val lifecycleScope: LifecycleCoroutineScope
 ) {
 
-
     fun getDataByCategory(category: String) {
         lifecycleScope.launch {
             repository.requestDataByCategory(category)
@@ -24,8 +23,7 @@ class HomePresenter(
                 .collect { response ->
                     when (response) {
                         is Repository.Result.Success<*> -> view.displayData(response.result as CategoryItemResponse)
-                        is Repository.Result.Failed<*> -> view.displayError(Throwable("CARAI ${response.code}"))
-                        else -> view.displayError(Throwable("PQP"))
+                        else -> view.displayError(Throwable())
                     }
                 }
         }

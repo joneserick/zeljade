@@ -7,4 +7,14 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+
+
+    <color name="smoothCaramel">#FDFFE0</color>
+    <color name="smoothCaramelVariant">#9A9A9A</color>
+    <color name="radFootprint">#92C582</color>
+    <color name="radFootprintDark">#6C955F</color>
+    <color name="brokenClaw">#86A5A9</color>
+    <color name="distantRock">#767676</color>
+    <color name="forestDensity">#536F50</color>
+
 </resources>

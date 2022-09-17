@@ -5,12 +5,12 @@ plugins {
 
 android {
     namespace 'com.stefick.zeljade'
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "com.stefick.zeljade"
-        minSdk 19
-        targetSdk 32
+        minSdk 21
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
