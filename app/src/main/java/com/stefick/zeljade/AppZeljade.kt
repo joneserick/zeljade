@@ -1,4 +1,7 @@
 package com.stefick.zeljade
 
-class AppZeljade {
+import android.app.Application
+
+class AppZeljade : Application() {
+
 }
