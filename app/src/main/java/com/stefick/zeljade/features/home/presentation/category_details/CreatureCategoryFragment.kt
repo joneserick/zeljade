@@ -9,11 +9,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.stefick.zeljade.core.models.CreaturesResponse
 import com.stefick.zeljade.databinding.FragmentCategoryItemBinding
 import com.stefick.zeljade.features.base.BaseFragment
+import com.stefick.zeljade.features.home.presentation.HomeActivity
 import com.stefick.zeljade.features.home.presentation.HomeViewModel
 import com.stefick.zeljade.features.home.presentation.category_details.adapter.CategoryItemDetailsAdapter
+import com.stefick.zeljade.features.home.presentation.item_details.CompendiumItemDetailsFragment
 
 
-class CategoryItemFragment : BaseFragment<FragmentCategoryItemBinding>() {
+class CreatureCategoryFragment : BaseFragment<FragmentCategoryItemBinding>() {
 
     private val model: HomeViewModel by activityViewModels()
 
@@ -56,7 +58,13 @@ class CategoryItemFragment : BaseFragment<FragmentCategoryItemBinding>() {
             categoryItemList.layoutManager =
                 LinearLayoutManager(safeContext, LinearLayoutManager.VERTICAL, false)
 
-            categoryItemList.adapter = CategoryItemDetailsAdapter(items)
+            categoryItemList.adapter = CategoryItemDetailsAdapter(items) { id ->
+                (activity as HomeActivity).changeFragment(
+                    CompendiumItemDetailsFragment.newInstance(
+                        id
+                    )
+                )
+            }
         }
     }
 
@@ -67,7 +75,7 @@ class CategoryItemFragment : BaseFragment<FragmentCategoryItemBinding>() {
 
         @JvmStatic
         fun newInstance(position: Int) =
-            CategoryItemFragment().apply {
+            CreatureCategoryFragment().apply {
                 arguments = Bundle().apply {
                     putInt(POSITION_EXTRAS, position)
                 }

@@ -1,16 +1,19 @@
 <resources>
     <string name="app_name">Zeljade</string>
     <string name="action_settings">Settings</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
 
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- Categories -->
     <string name="food_label">Food</string>
     <string name="non_food_label">Non Food</string>
+
+    <!-- Specs -->
+    <string name="str_description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed cursus consectetur varius. Phasellus scelerisque aliquam erat. Vestibulum vel luctus purus, ut faucibus massa.</string>
+    <string name="drops_label">Drops</string>
+    <string name="attributes_label">Attributes</string>
+    <string name="common_locations_label">Common Locations</string>
+    <string name="str_hearts_recovered">Hearts recovered:  %f</string>
+    <string name="str_cooking_effect">Cooking effect: %s</string>
+    <string name="str_attack">Attack: %d</string>
+    <string name="str_defense">Defense: %d</string>
+    <string name="str_not_available">Not available</string>
 </resources>

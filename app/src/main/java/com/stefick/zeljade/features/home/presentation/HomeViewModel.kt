@@ -16,11 +16,16 @@ class HomeViewModel(
         MutableLiveData<CompendiumResponse>()
     }
 
+    private val _entry: MutableLiveData<EntryResponse> by lazy {
+        MutableLiveData<EntryResponse>()
+    }
+
     private val _error: MutableLiveData<String> by lazy {
         MutableLiveData<String>()
     }
 
     val categories: LiveData<CompendiumResponse> = _categories
+    val entry: LiveData<EntryResponse> = _entry
     val error: LiveData<String> = _error
 
     fun requestAllData() {
@@ -30,6 +35,25 @@ class HomeViewModel(
                     when (result) {
                         is Repository.Result.Success<*> -> _categories.value =
                             (result.result as CompendiumResponse)
+                        is Repository.Result.Failed<*> -> _error.value =
+                            ((result.result as ErrorResponse).message)
+                        is Repository.Result.Unknown -> {
+                            _error.value = "WIP: should improve error response: ${result.url}"
+                        }
+                        else -> _error.value = "WIP: default error value"
+                    }
+                }
+        }
+    }
+
+
+    fun requestEntry(entryId: Int) {
+        viewModelScope.launch {
+            repository.requestEntryData(entryId)
+                .collect { result ->
+                    when (result) {
+                        is Repository.Result.Success<*> -> _entry.value =
+                            (result.result as EntryResponse)
                         is Repository.Result.Failed<*> -> _error.value =
                             ((result.result as ErrorResponse).message)
                         is Repository.Result.Unknown -> {

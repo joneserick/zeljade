@@ -2,7 +2,7 @@ package com.stefick.zeljade.features.home.presentation.category_details.adapter
 
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
-import com.stefick.zeljade.features.home.presentation.category_details.CategoryItemFragment
+import com.stefick.zeljade.features.home.presentation.category_details.CreatureCategoryFragment
 
 class CreatureCategoryAdapter(fragment: Fragment) :
     FragmentStateAdapter(fragment) {
@@ -10,7 +10,7 @@ class CreatureCategoryAdapter(fragment: Fragment) :
     override fun getItemCount(): Int = 2
 
     override fun createFragment(position: Int): Fragment {
-        return CategoryItemFragment.newInstance(position)
+        return CreatureCategoryFragment.newInstance(position)
     }
 
 }

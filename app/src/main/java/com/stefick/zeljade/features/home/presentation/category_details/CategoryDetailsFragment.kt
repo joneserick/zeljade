@@ -13,9 +13,11 @@ import com.stefick.zeljade.core.models.CategoryEnum
 import com.stefick.zeljade.core.repository.CompendiumRepository
 import com.stefick.zeljade.databinding.FragmentCategoryDetailsBinding
 import com.stefick.zeljade.features.base.BaseFragment
+import com.stefick.zeljade.features.home.presentation.HomeActivity
 import com.stefick.zeljade.features.home.presentation.HomeViewModel
 import com.stefick.zeljade.features.home.presentation.category_details.adapter.CategoryItemDetailsAdapter
 import com.stefick.zeljade.features.home.presentation.category_details.adapter.CreatureCategoryAdapter
+import com.stefick.zeljade.features.home.presentation.item_details.CompendiumItemDetailsFragment
 
 private const val CATEGORY_PARAM = "category"
 
@@ -34,7 +36,7 @@ class CategoryDetailsFragment : BaseFragment<FragmentCategoryDetailsBinding>() {
         arguments?.let {
             category = it.getString(CATEGORY_PARAM)
         }
-        setActionBarTitle(category.toString().capitalize())
+        setActionBarTitle(category.toString())
     }
 
     override fun onCreateViewBinding(
@@ -48,6 +50,23 @@ class CategoryDetailsFragment : BaseFragment<FragmentCategoryDetailsBinding>() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupViewBasedOnCategory(category ?: "")
+
+        model.entry.observe(viewLifecycleOwner) { entry ->
+
+        }
+
+        model.categories.observe(viewLifecycleOwner) {
+            setupSimpleCategoryList()
+        }
+
+        model.categories.observe(viewLifecycleOwner) {
+            binding?.viewpager?.adapter?.notifyDataSetChanged()
+        }
+    }
+
+    override fun onBackPressed(): Boolean {
+        finish()
+        return super.onBackPressed()
     }
 
     private fun setupViewBasedOnCategory(category: String) {
@@ -62,42 +81,45 @@ class CategoryDetailsFragment : BaseFragment<FragmentCategoryDetailsBinding>() {
             categoryItemList.visibility = View.VISIBLE
             viewpager.visibility = View.GONE
             tabLayout.visibility = View.GONE
-
-            categoryItemList.layoutManager =
-                LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-
-            model.categories.observe(viewLifecycleOwner) {
-                categoryItemList.adapter =
-                    CategoryItemDetailsAdapter(model.getSelectedSimpleCategoryItems(category))
-            }
         }
+        setupSimpleCategoryList()
     }
 
     private fun loadAsCreature() {
         binding?.run {
-
             categoryItemList.visibility = View.GONE
             viewpager.visibility = View.VISIBLE
             tabLayout.visibility = View.VISIBLE
+        }
+        setupCreatureList()
+    }
 
-            model.categories.observe(viewLifecycleOwner) {
-                viewpager.adapter = CreatureCategoryAdapter(this@CategoryDetailsFragment)
-            }
+    private fun setupSimpleCategoryList() {
+        binding?.categoryItemList?.apply {
+            layoutManager =
+                LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+            adapter =
+                CategoryItemDetailsAdapter(model.getSelectedSimpleCategoryItems(category)) { id ->
+                    (activity as HomeActivity).changeFragment(
+                        CompendiumItemDetailsFragment.newInstance(
+                            id
+                        )
+                    )
+                }
+        }
+    }
 
+    private fun setupCreatureList() {
+        binding?.run {
             viewpager.adapter = CreatureCategoryAdapter(this@CategoryDetailsFragment)
 
             TabLayoutMediator(tabLayout, viewpager) { tab, position ->
                 tab.text = when (position) {
-                    CategoryItemFragment.FIRST_POSITION -> getString(R.string.food_label)
+                    CreatureCategoryFragment.FIRST_POSITION -> getString(R.string.food_label)
                     else -> getString(R.string.non_food_label)
                 }
             }.attach()
         }
-    }
-
-    override fun onBackPressed(): Boolean {
-        finish()
-        return super.onBackPressed()
     }
 
     companion object {

@@ -8,5 +8,7 @@ class CompendiumRepository(private val remoteDataSource: CompendiumRemoteDataSou
     override suspend fun requestAllData(): Flow<Result> =
         flowFromNetworkResponse(remoteDataSource.requestAllData())
 
+    override suspend fun requestEntryData(entryId: Int): Flow<Result> =
+        flowFromNetworkResponse(remoteDataSource.requestEntryData(entryId))
 
 }
