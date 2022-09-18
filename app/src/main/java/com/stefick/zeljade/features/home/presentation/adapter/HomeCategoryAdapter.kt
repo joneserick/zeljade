@@ -7,10 +7,11 @@ import com.bumptech.glide.Glide
 import com.stefick.zeljade.databinding.LayoutCategoryItemBinding
 import com.stefick.zeljade.features.home.models.CategoryListItem
 
-class HomeCategoryAdapter(items: List<CategoryListItem>) :
+class HomeCategoryAdapter(
+    val items: List<CategoryListItem>,
+    val onItemClick: (item: CategoryListItem) -> Unit
+) :
     RecyclerView.Adapter<CategoryItemViewHolder>() {
-
-    private val mItems: List<CategoryListItem> = items
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoryItemViewHolder {
         return CategoryItemViewHolder(
@@ -23,10 +24,12 @@ class HomeCategoryAdapter(items: List<CategoryListItem>) :
     }
 
     override fun getItemCount(): Int =
-        mItems.size
+        items.size
 
     override fun onBindViewHolder(holder: CategoryItemViewHolder, position: Int) {
-        holder.bind(mItems[position])
+        val item = items[position]
+        holder.binding.root.setOnClickListener { onItemClick.invoke(item) }
+        holder.bind(item)
     }
 }
 
@@ -40,6 +43,7 @@ class CategoryItemViewHolder(val binding: LayoutCategoryItemBinding) :
             .into(binding.categoryImage)
 
         binding.categoryName.text = item.name
+
     }
 
 }
