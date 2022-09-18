@@ -1,38 +1,95 @@
 package com.stefick.zeljade.features.home.presentation
 
 import androidx.lifecycle.*
-import com.stefick.zeljade.core.models.CategoryItemResponse
+import com.stefick.zeljade.core.models.*
 import com.stefick.zeljade.core.network.base.ErrorResponse
 import com.stefick.zeljade.core.repository.ICompendiumRepository
 import com.stefick.zeljade.core.repository.Repository
+import com.stefick.zeljade.features.home.models.CategoryCardItem
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
     private val repository: ICompendiumRepository
 ) : ViewModel(), LifecycleObserver {
 
-    private val _categories: MutableLiveData<CategoryItemResponse> by lazy {
-        MutableLiveData<CategoryItemResponse>()
+    private val _categories: MutableLiveData<CompendiumResponse> by lazy {
+        MutableLiveData<CompendiumResponse>()
     }
 
     private val _error: MutableLiveData<String> by lazy {
         MutableLiveData<String>()
     }
 
-    val categories: LiveData<CategoryItemResponse> = _categories
+    val categories: LiveData<CompendiumResponse> = _categories
     val error: LiveData<String> = _error
 
-    fun requestDataByCategory(category: String) {
+    fun requestAllData() {
         viewModelScope.launch {
-            repository.requestDataByCategory(category)
+            repository.requestAllData()
                 .collect { result ->
                     when (result) {
-                        is Repository.Result.Success<*> -> _categories.postValue(result.result as CategoryItemResponse)
-                        is Repository.Result.Failed<*> -> _error.postValue((result.result as ErrorResponse).message)
-                        is Repository.Result.Unknown -> _error.postValue("should improve error response: ${result.url}")
-                        else -> _error.postValue("default error value")
+                        is Repository.Result.Success<*> -> _categories.value =
+                            (result.result as CompendiumResponse)
+                        is Repository.Result.Failed<*> -> _error.value =
+                            ((result.result as ErrorResponse).message)
+                        is Repository.Result.Unknown -> {
+                            _error.value = "WIP: should improve error response: ${result.url}"
+                        }
+                        else -> _error.value = "WIP: default error value"
                     }
                 }
+        }
+    }
+
+    fun getSelectedSimpleCategoryItems(category: String?): ArrayList<CategoryResponse>? {
+        return when (category) {
+            CategoryEnum.EQUIPMENT.category -> categories.value?.data?.equipment
+            CategoryEnum.MATERIALS.category -> categories.value?.data?.materials
+            CategoryEnum.TREASURE.category -> categories.value?.data?.treasure
+            CategoryEnum.MONSTERS.category -> categories.value?.data?.monsters
+            else -> null
+        }
+    }
+
+    fun getEachCategory(categories: CategoriesResponse?): List<CategoryCardItem> {
+        return arrayListOf<CategoryCardItem>().apply {
+            categories.let { model ->
+                val creatures = model?.creatures?.nonFood?.first() // improve to identify type
+                add(
+                    CategoryCardItem(
+                        name = creatures?.category,
+                        image = creatures?.image
+                    )
+                )
+                val materials = model?.materials?.first()
+                add(
+                    CategoryCardItem(
+                        name = materials?.category,
+                        image = materials?.image
+                    )
+                )
+                val monsters = model?.monsters?.first()
+                add(
+                    CategoryCardItem(
+                        name = monsters?.category,
+                        image = monsters?.image
+                    )
+                )
+                val equipment = model?.equipment?.first()
+                add(
+                    CategoryCardItem(
+                        name = equipment?.category,
+                        image = equipment?.image
+                    )
+                )
+                val treasure = model?.treasure?.first()
+                add(
+                    CategoryCardItem(
+                        name = treasure?.category,
+                        image = treasure?.image
+                    )
+                )
+            }
         }
     }
 
@@ -43,5 +100,4 @@ class HomeViewModel(
             return HomeViewModel(repository) as T
         }
     }
-
 }

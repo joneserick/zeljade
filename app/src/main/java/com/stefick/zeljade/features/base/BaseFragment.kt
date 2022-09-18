@@ -12,7 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 
-internal abstract class BaseFragment<TBinding : ViewBinding> : Fragment(), ToolbarHost {
+abstract class BaseFragment<TBinding : ViewBinding> : Fragment(), ToolbarHost {
 
     private val mToolbarHost: ToolbarHost?
         get() {
@@ -58,8 +58,6 @@ internal abstract class BaseFragment<TBinding : ViewBinding> : Fragment(), Toolb
             }
         }
     }
-
-
     override fun getActionBarTitle(): CharSequence {
         val safeActivity = activity ?: return ""
 
@@ -75,7 +73,6 @@ internal abstract class BaseFragment<TBinding : ViewBinding> : Fragment(), Toolb
             }
         }
     }
-
     override fun setActionBarTitle(title: CharSequence) {
         val safeActivity = activity ?: return
 
@@ -130,7 +127,6 @@ internal abstract class BaseFragment<TBinding : ViewBinding> : Fragment(), Toolb
             }
         }
     }
-
     override fun setActionBarIcon(resource: Int, onClickListener: View.OnClickListener?) {
         mToolbarHost?.setActionBarIcon(resource, onClickListener)
     }

@@ -5,11 +5,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.stefick.zeljade.databinding.LayoutCategoryItemBinding
-import com.stefick.zeljade.features.home.models.CategoryListItem
+import com.stefick.zeljade.features.home.models.CategoryCardItem
 
 class HomeCategoryAdapter(
-    val items: List<CategoryListItem>,
-    val onItemClick: (item: CategoryListItem) -> Unit
+    val items: List<CategoryCardItem>,
+    val onItemClick: (item: CategoryCardItem) -> Unit
 ) :
     RecyclerView.Adapter<CategoryItemViewHolder>() {
 
@@ -36,7 +36,7 @@ class HomeCategoryAdapter(
 class CategoryItemViewHolder(val binding: LayoutCategoryItemBinding) :
     RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(item: CategoryListItem) {
+    fun bind(item: CategoryCardItem) {
         Glide.with(binding.root)
             .load(item.image)
             .centerCrop()
