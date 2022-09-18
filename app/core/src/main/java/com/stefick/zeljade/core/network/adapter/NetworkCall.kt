@@ -1,17 +1,12 @@
 package com.stefick.zeljade.core.network.adapter
 
-import android.accounts.NetworkErrorException
 import com.stefick.zeljade.core.network.base.NetworkResultBase
 import com.stefick.zeljade.core.network.base.resultFromNetworkResponse
 import okhttp3.Request
 import okhttp3.ResponseBody
 import okio.IOException
 import okio.Timeout
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Converter
-import retrofit2.HttpException
-import retrofit2.Response
+import retrofit2.*
 import java.util.concurrent.TimeUnit
 import java.util.concurrent.TimeoutException
 
@@ -29,6 +24,7 @@ class NetworkCall<T : Any, E : Any>(
             }
 
             override fun onFailure(call: Call<T>, throwable: Throwable) {
+                throwable.printStackTrace()
                 val networkResponse = when (throwable) {
                     is HttpException -> NetworkResultBase.NetworkError(throwable, 500)
                     is TimeoutException -> NetworkResultBase.NetworkError(throwable, 408)

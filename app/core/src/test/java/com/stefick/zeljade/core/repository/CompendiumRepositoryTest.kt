@@ -1,9 +1,9 @@
 package com.stefick.zeljade.core.repository
 
 import com.stefick.zeljade.core.api.CompendiumRemoteDataSource
-import com.stefick.zeljade.core.mocks.CategoryMocks
+import com.stefick.zeljade.core.mocks.CompendiumMocks
 import com.stefick.zeljade.core.mocks.ExceptionMocks
-import com.stefick.zeljade.core.models.CategoryItemResponse
+import com.stefick.zeljade.core.models.CompendiumResponse
 import com.stefick.zeljade.core.network.base.ErrorResponse
 import com.stefick.zeljade.core.network.base.NetworkResultBase
 import com.stefick.zeljade.core.repository.Repository.Result
@@ -38,26 +38,22 @@ class CompendiumRepositoryTest {
 
     @Test
     fun shouldSuccessfullyReturnCategoriesWhenRequestingBySpecificCategory() {
-        val category = "monsters"
-        val categoryItemResponse = CategoryMocks.getMockCategory(category)
+
+        val mockedCompendium = CompendiumMocks.getMockCompendium()
 
         val mockSuccessResponse = NetworkResultBase.Success(
             Headers.headersOf("key", "value"),
-            categoryItemResponse,
+            mockedCompendium,
             200
         )
 
         runBlocking {
-            Mockito.`when`(remoteDataSource.requestDataByCategory(category))
+            Mockito.`when`(remoteDataSource.requestAllData())
                 .thenReturn(mockSuccessResponse)
 
-            repository.requestDataByCategory(category).collect { result ->
+            repository.requestAllData().collect { result ->
                 val response = result as Result.Success<*>
-                assert(response.result is CategoryItemResponse)
-                Assert.assertEquals(
-                    (response.result as CategoryItemResponse).data.first().category,
-                    category
-                )
+                assert(response.result is CompendiumResponse)
             }
         }
     }
@@ -65,8 +61,8 @@ class CompendiumRepositoryTest {
 
     @Test
     fun shouldReturnAPIErrorWhenRequestTriggersNotFound() {
-        val category = "monsters"
-        val errorResponse = ErrorResponse(listOf(), "Not found")
+
+        val errorResponse = ErrorResponse(arrayListOf(), "Not found")
         val mockedURL = "http://compendium.zeljade.challenge/url"
         val code = 404
 
@@ -77,10 +73,10 @@ class CompendiumRepositoryTest {
         )
 
         runBlocking {
-            Mockito.`when`(remoteDataSource.requestDataByCategory(category))
+            Mockito.`when`(remoteDataSource.requestAllData())
                 .thenReturn(mockedNotFoundError)
 
-            repository.requestDataByCategory(category).collect { result ->
+            repository.requestAllData().collect { result ->
                 val response = result as Result.Failed<*>
 
                 assert(response.result is ErrorResponse)
@@ -94,7 +90,6 @@ class CompendiumRepositoryTest {
 
     @Test
     fun shouldReturnErrorWhenRequestFailsDueToAServerException() {
-        val category = "monsters"
         val message = "Error while trying to load"
         val code = 500
         val mockedHttpException = ExceptionMocks.getMockedHttpException(message, code)
@@ -105,10 +100,10 @@ class CompendiumRepositoryTest {
         )
 
         runBlocking {
-            Mockito.`when`(remoteDataSource.requestDataByCategory(category))
+            Mockito.`when`(remoteDataSource.requestAllData())
                 .then { mockedFailResult }
 
-            repository.requestDataByCategory(category).collect { result ->
+            repository.requestAllData().collect { result ->
                 val response = result as Result.Error
 
                 assert(response.response is NetworkResultBase<*, *>)
@@ -122,7 +117,6 @@ class CompendiumRepositoryTest {
 
     @Test
     fun shouldReturnErrorWhenRequestTimesOut() {
-        val category = "monsters"
         val message = "timeout"
         val code = 408
         val mockedTimeoutException = ExceptionMocks.getMockedTimeoutException(message)
@@ -133,10 +127,10 @@ class CompendiumRepositoryTest {
         )
 
         runBlocking {
-            Mockito.`when`(remoteDataSource.requestDataByCategory(category))
+            Mockito.`when`(remoteDataSource.requestAllData())
                 .then { mockedFailResult }
 
-            repository.requestDataByCategory(category).collect { result ->
+            repository.requestAllData().collect { result ->
                 val response = result as Result.Error
 
                 assert(response.response is NetworkResultBase.NetworkError)
@@ -149,7 +143,6 @@ class CompendiumRepositoryTest {
 
     @Test
     fun shouldReturnUnknownErrorWhenAnIOExceptionOccurs() {
-        val category = "monsters"
         val message = "unknown"
         val code = -1
         val mockedUnknownException = ExceptionMocks.getMockedIOException(message)
@@ -160,10 +153,10 @@ class CompendiumRepositoryTest {
         )
 
         runBlocking {
-            Mockito.`when`(remoteDataSource.requestDataByCategory(category))
+            Mockito.`when`(remoteDataSource.requestAllData())
                 .then { mockedFailResult }
 
-            repository.requestDataByCategory(category).collect { result ->
+            repository.requestAllData().collect { result ->
                 val response = result as Result.Error
 
                 assert(response.response is NetworkResultBase.NetworkError)
@@ -177,7 +170,6 @@ class CompendiumRepositoryTest {
 
     @Test
     fun shouldReturnUnknownErrorWhenAnUnexpectedErrorOccurs() {
-        val category = "monsters"
         val message = "unknown"
         val mockedURL = "http://compendium.zeljade.challenge/url"
         val mockedResponseBody = null
@@ -192,10 +184,10 @@ class CompendiumRepositoryTest {
         )
 
         runBlocking {
-            Mockito.`when`(remoteDataSource.requestDataByCategory(category))
+            Mockito.`when`(remoteDataSource.requestAllData())
                 .then { mockedFailResult }
 
-            repository.requestDataByCategory(category).collect { result ->
+            repository.requestAllData().collect { result ->
                 val response = result as Result.Unknown
 
                 assert(response.url.equals(mockedURL))

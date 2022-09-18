@@ -1,20 +1,19 @@
 package com.stefick.zeljade.core.models
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
-data class CategoryItem(
+data class CategoryResponse(
     var id: Int? = null,
     var name: String? = null,
     var description: String? = null,
     var category: String? = null,
     var image: String? = null,
-    var drops: List<String>? = null,
-    var food: List<CategoryItem>? = null,
+    var drops: ArrayList<String>? = null,
     var attack: Int? = null,
     var defense: Int? = null,
 
-    @SerializedName("non_food")
-    var nonFood: List<CategoryItem>? = null,
+    var isFoodCreature: Boolean? = null,
 
     @SerializedName("cooking_effect")
     var cookingEffect: String? = null,
@@ -23,7 +22,5 @@ data class CategoryItem(
     var heartsRecovered: Double? = null,
 
     @SerializedName("common_locations")
-    var commonLocations: List<String>? = null
-)
-
-
+    var commonLocations: java.util.ArrayList<String>? = null
+) : Serializable
