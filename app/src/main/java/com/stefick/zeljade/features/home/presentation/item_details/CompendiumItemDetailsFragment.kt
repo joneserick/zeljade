@@ -6,31 +6,51 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.bumptech.glide.Glide
 import com.stefick.zeljade.R
+import com.stefick.zeljade.core.api.CompendiumRemoteService
 import com.stefick.zeljade.core.models.EntryResponse
+import com.stefick.zeljade.core.repository.CompendiumRepository
 import com.stefick.zeljade.custom.shared.extensions.capitalizeWords
 import com.stefick.zeljade.databinding.FragmentCompendiumItemDetailsBinding
 import com.stefick.zeljade.features.base.BaseFragment
 import com.stefick.zeljade.features.home.presentation.HomeViewModel
 import com.stefick.zeljade.features.home.presentation.item_details.adapter.SpecsListAdapter
 
-class CompendiumItemDetailsFragment : BaseFragment<FragmentCompendiumItemDetailsBinding>() {
+class CompendiumItemDetailsFragment : BaseFragment<FragmentCompendiumItemDetailsBinding>(),
+    EntryViewContract {
 
-    private val model: HomeViewModel by activityViewModels()
-
-    private var entryId: Int? = null
+    private var presenter: EntryPresenter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        presenter =
+            EntryPresenter(this, CompendiumRepository(CompendiumRemoteService()), lifecycleScope)
+
         arguments?.apply {
-            entryId = getInt(ENTRY_EXTRA_KEY)
+            presenter?.getEntry(getInt(ENTRY_EXTRA_KEY))
         }
 
-        model.requestEntry(entryId ?: 0)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (binding?.shimmerViewContainer?.isShimmerVisible == false)
+            binding?.shimmerViewContainer?.startShimmer()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        binding?.shimmerViewContainer?.stopShimmer()
+    }
+
+    override fun onBackPressed(): Boolean {
+        finish()
+        return true
     }
 
     override fun onCreateViewBinding(
@@ -38,37 +58,60 @@ class CompendiumItemDetailsFragment : BaseFragment<FragmentCompendiumItemDetails
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): FragmentCompendiumItemDetailsBinding {
-        return FragmentCompendiumItemDetailsBinding.inflate(inflater, container, false).apply {
+        return FragmentCompendiumItemDetailsBinding.inflate(inflater, container, false)
+    }
 
-            model.entry.observe(viewLifecycleOwner) { entry ->
+    override fun showLoader() {
+        binding?.shimmerViewContainer?.startShimmer()
+    }
 
-                Glide.with(root)
-                    .load(entry?.data?.image)
-                    .centerCrop()
-                    .placeholder(
-                        ContextCompat.getDrawable(
-                            root.context,
-                            R.drawable.loading_image
-                        )
+    override fun hideLoader() {
+        binding?.shimmerViewContainer?.stopShimmer()
+    }
+
+    override fun displayEntry(entry: EntryResponse) {
+        setupView(entry)
+    }
+
+    override fun displayError(message: String) {
+        TODO("Not yet implemented")
+    }
+
+    private fun setupView(entry: EntryResponse) {
+        binding?.run {
+            Glide.with(root)
+                .load(entry.data?.image)
+                .centerCrop()
+                .placeholder(
+                    ContextCompat.getDrawable(
+                        root.context,
+                        R.drawable.loading_image
                     )
-                    .into(itemImage)
+                )
+                .into(itemImage)
 
+            val title = entry.data?.name ?: getString(R.string.str_not_available)
+            itemName.text = title.capitalizeWords()
+            itemDescription.text =
+                entry.data?.description ?: getString(R.string.str_not_available)
 
-                val title = entry?.data?.name ?: getString(R.string.str_not_available)
-                itemName.text = title.capitalizeWords()
-                itemDescription.text = entry?.data?.description ?: getString(R.string.str_not_available)
-
-                entry.data?.commonLocations?.let {
-                    itemCommonLocations.apply {
-                        layoutManager = getSharedLayoutManager()
-                        adapter = SpecsListAdapter(it)
-                        visibility = View.VISIBLE
-                    }
-                    itemCommonLocationsLabel.visibility = View.VISIBLE
+            entry.data?.commonLocations?.let {
+                itemCommonLocations.apply {
+                    layoutManager = getSharedLayoutManager()
+                    adapter = SpecsListAdapter(it)
+                    visibility = View.VISIBLE
                 }
-                setupSpecsList(entry)
+                itemCommonLocationsLabel.visibility = View.VISIBLE
             }
+            setupSpecsList(entry)
+
+            shimmerViewContainer.let {
+                it.stopShimmer()
+                it.visibility = View.GONE
+            }
+            container.visibility = View.VISIBLE
         }
+
     }
 
     private fun setupSpecsList(entry: EntryResponse) {
@@ -124,4 +167,5 @@ class CompendiumItemDetailsFragment : BaseFragment<FragmentCompendiumItemDetails
             }
         }
     }
+
 }

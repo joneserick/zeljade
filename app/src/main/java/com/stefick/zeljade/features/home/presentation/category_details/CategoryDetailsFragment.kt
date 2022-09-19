@@ -32,9 +32,11 @@ class CategoryDetailsFragment : BaseFragment<FragmentCategoryDetailsBinding>() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         arguments?.let {
             category = it.getString(CATEGORY_PARAM)
         }
+
         setActionBarTitle(category.toString().capitalizeWords())
         setHasOptionsMenu(true)
     }
@@ -44,22 +46,22 @@ class CategoryDetailsFragment : BaseFragment<FragmentCategoryDetailsBinding>() {
 
         setupViewBasedOnCategory(category ?: "")
 
-        model.entry.observe(viewLifecycleOwner) { entry ->
-
-        }
-
         model.categories.observe(viewLifecycleOwner) {
-            setupSimpleCategoryList()
-        }
-
-        model.categories.observe(viewLifecycleOwner) {
-            binding?.viewpager?.adapter?.notifyDataSetChanged()
+            setupViewBasedOnCategory(category ?: "")
         }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         configureSearch()
+    }
+
+    override fun onCreateViewBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): FragmentCategoryDetailsBinding {
+        return FragmentCategoryDetailsBinding.inflate(inflater, container, false)
     }
 
     private fun configureSearch() {
@@ -77,42 +79,11 @@ class CategoryDetailsFragment : BaseFragment<FragmentCategoryDetailsBinding>() {
         searchView?.setOnClickListener { }
     }
 
-    override fun onCreateViewBinding(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): FragmentCategoryDetailsBinding {
-        return FragmentCategoryDetailsBinding.inflate(inflater, container, false)
-    }
-
-    override fun onBackPressed(): Boolean {
-        finish()
-        return super.onBackPressed()
-    }
-
     private fun setupViewBasedOnCategory(category: String) {
         when (category.lowercase()) {
-            CategoryEnum.CREATURES.category -> loadAsCreature()
-            else -> loadAsSimpleCategory()
+            CategoryEnum.CREATURES.category -> setupCreatureList()
+            else -> setupSimpleCategoryList()
         }
-    }
-
-    private fun loadAsSimpleCategory() {
-        binding?.run {
-            categoryItemList.visibility = View.VISIBLE
-            viewpager.visibility = View.GONE
-            tabLayout.visibility = View.GONE
-        }
-        setupSimpleCategoryList()
-    }
-
-    private fun loadAsCreature() {
-        binding?.run {
-            categoryItemList.visibility = View.GONE
-            viewpager.visibility = View.VISIBLE
-            tabLayout.visibility = View.VISIBLE
-        }
-        setupCreatureList()
     }
 
     private fun setupSimpleCategoryList() {
@@ -123,6 +94,11 @@ class CategoryDetailsFragment : BaseFragment<FragmentCategoryDetailsBinding>() {
             it.layoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
             it.adapter = adapter
+        }
+        binding?.run {
+            categoryItemList.visibility = View.VISIBLE
+            viewpager.visibility = View.GONE
+            tabLayout.visibility = View.GONE
         }
     }
 
@@ -136,6 +112,11 @@ class CategoryDetailsFragment : BaseFragment<FragmentCategoryDetailsBinding>() {
                     else -> getString(R.string.non_food_label)
                 }
             }.attach()
+        }
+        binding?.run {
+            categoryItemList.visibility = View.GONE
+            viewpager.visibility = View.VISIBLE
+            tabLayout.visibility = View.VISIBLE
         }
     }
 

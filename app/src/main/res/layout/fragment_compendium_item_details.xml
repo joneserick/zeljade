@@ -7,138 +7,142 @@
     android:background="@drawable/bg_gradient_breath_to_sun"
     android:paddingBottom="32dp">
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         tools:context=".features.home.presentation.item_details.CompendiumItemDetailsFragment">
 
-        <com.stefick.zeljade.custom.shared.presentation.CircleImageView
-            android:id="@+id/item_image"
-            android:layout_width="220dp"
-            android:layout_height="220dp"
-            android:layout_gravity="center"
-            android:layout_marginTop="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:src="@mipmap/ic_launcher" />
-
-        <TextView
-            android:id="@+id/item_name"
+        <com.facebook.shimmer.ShimmerFrameLayout
+            android:id="@+id/shimmer_view_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
+            android:layout_gravity="center_horizontal"
             android:layout_marginTop="16dp"
-            android:textColor="@color/white"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/item_image"
-            tools:text="Item name" />
+            android:orientation="vertical"
+            app:shimmer_duration="800">
 
-        <TextView
-            android:id="@+id/item_description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="42dp"
-            android:paddingStart="16dp"
-            android:paddingEnd="16dp"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/item_name"
-            tools:text="@string/str_description" />
+            <include layout="@layout/category_details_placeholder" />
+            <!--            <FrameLayout-->
+            <!--                android:layout_width="match_parent"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:orientation="vertical"> -->
+            <!--            </FrameLayout>-->
 
-        <TextView
-            android:id="@+id/item_common_locations_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:text="@string/common_locations_label"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:visibility="gone"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/item_description"
-            tools:visibility="visible" />
+        </com.facebook.shimmer.ShimmerFrameLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/item_common_locations"
+        <LinearLayout
+            android:id="@id/container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:overScrollMode="never"
+            android:orientation="vertical"
             android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/item_common_locations_label"
-            tools:itemCount="2"
-            tools:layout="@layout/layout_spec_item"
-            tools:text="Item name"
-            tools:visibility="visible" />
+            tools:visibility="visible">
 
-        <TextView
-            android:id="@+id/item_specs_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="18dp"
-            android:text="@string/attributes_label"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:visibility="gone"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/item_common_locations"
-            tools:visibility="visible" />
+            <com.stefick.zeljade.custom.shared.presentation.CircleImageView
+                android:id="@+id/item_image"
+                android:layout_width="220dp"
+                android:layout_height="220dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp"
+                tools:src="@mipmap/ic_launcher" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/item_specs_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:overScrollMode="never"
-            android:textSize="16sp"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/item_specs_label"
-            tools:itemCount="2"
-            tools:layout="@layout/layout_spec_item"
-            tools:visibility="visible" />
+            <TextView
+                android:id="@+id/item_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                tools:text="Item name" />
 
-        <TextView
-            android:id="@+id/item_drops"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="18dp"
-            android:text="@string/drops_label"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:visibility="gone"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/item_common_locations"
-            tools:visibility="visible" />
+            <TextView
+                android:id="@+id/item_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="42dp"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                tools:text="@string/str_description" />
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/item_drops_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:nestedScrollingEnabled="false"
-            android:overScrollMode="never"
-            android:textSize="16sp"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/item_specs_label"
-            tools:itemCount="6"
-            tools:layout="@layout/layout_spec_item"
-            tools:text="Drops"
-            tools:visibility="visible" />
+            <TextView
+                android:id="@+id/item_common_locations_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="@string/common_locations_label"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:visibility="gone"
+                tools:visibility="visible" />
 
-    </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/item_common_locations"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:overScrollMode="never"
+                android:visibility="gone"
+                tools:itemCount="2"
+                tools:layout="@layout/layout_spec_item"
+                tools:text="Item name"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/item_specs_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="18dp"
+                android:text="@string/attributes_label"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/item_specs_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:overScrollMode="never"
+                android:textSize="16sp"
+                android:visibility="gone"
+                tools:itemCount="2"
+                tools:layout="@layout/layout_spec_item"
+                tools:visibility="visible" />
+
+            <TextView
+                android:id="@+id/item_drops"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="18dp"
+                android:text="@string/drops_label"
+                android:textColor="@color/white"
+                android:textSize="18sp"
+                android:visibility="gone"
+                tools:visibility="visible" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/item_drops_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:nestedScrollingEnabled="false"
+                android:overScrollMode="never"
+                android:textSize="16sp"
+                android:visibility="gone"
+                tools:itemCount="6"
+                tools:layout="@layout/layout_spec_item"
+                tools:text="Drops"
+                tools:visibility="visible" />
+
+        </LinearLayout>
+
+    </FrameLayout>
 </androidx.core.widget.NestedScrollView>

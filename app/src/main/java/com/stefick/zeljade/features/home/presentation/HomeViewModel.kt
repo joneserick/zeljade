@@ -53,8 +53,9 @@ class HomeViewModel(
             repository.requestEntryData(entryId)
                 .collect { result ->
                     when (result) {
-                        is Repository.Result.Success<*> -> _entry.value =
+                        is Repository.Result.Success<*> -> _entry.postValue(
                             (result.result as EntryResponse)
+                        )
                         is Repository.Result.Failed<*> -> _error.value =
                             ((result.result as ErrorResponse).message)
                         is Repository.Result.Unknown -> {
