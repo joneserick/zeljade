@@ -14,6 +14,7 @@ import com.stefick.zeljade.features.home.presentation.HomeViewModel
 import com.stefick.zeljade.features.home.presentation.category_details.adapter.CategoryItemDetailsAdapter
 import com.stefick.zeljade.features.home.presentation.item_details.CompendiumItemDetailsFragment
 
+
 class CreatureCategoryFragment : BaseFragment<FragmentCategoryItemBinding>() {
 
     private val model: HomeViewModel by activityViewModels()
@@ -58,7 +59,9 @@ class CreatureCategoryFragment : BaseFragment<FragmentCategoryItemBinding>() {
                 return true
             }
         })
-        searchView?.setOnClickListener { v -> v.requestFocus() }
+        searchView?.apply {
+            setOnClickListener { v -> v.requestFocus() }
+        }
     }
 
     @Deprecated("Deprecated in Java")

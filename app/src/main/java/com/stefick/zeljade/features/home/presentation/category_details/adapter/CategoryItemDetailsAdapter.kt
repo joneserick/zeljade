@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.stefick.zeljade.R
 import com.stefick.zeljade.core.models.CategoryResponse
+import com.stefick.zeljade.custom.shared.extensions.capitalizeWords
 import com.stefick.zeljade.databinding.LayoutCategoryItemListItemBinding
 
 class CategoryItemDetailsAdapter(
@@ -87,7 +88,7 @@ class CategoryItemDetailsAdapter(
                     )
                 )
                 .into(binding.itemImage)
-            binding.itemName.text = item?.name
+            binding.itemName.text = item?.name?.capitalizeWords()
         }
 
     }

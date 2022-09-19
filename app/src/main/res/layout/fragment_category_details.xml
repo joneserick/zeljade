@@ -11,10 +11,10 @@
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
-        app:tabSelectedTextColor="@color/brokenClaw"
-        app:tabTextColor="@color/white"
+        app:tabSelectedTextColor="@color/white"
+        app:tabTextColor="@color/distantRock"
         android:layout_height="wrap_content"
-        android:background="@null" />
+        android:background="@color/forestDensity" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewpager"

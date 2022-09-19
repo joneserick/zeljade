@@ -6,6 +6,7 @@ import android.view.MenuItem
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.activity.viewModels
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import com.stefick.zeljade.R
@@ -29,6 +30,7 @@ class HomeActivity : DefaultFragmentActivity() {
 
         setSupportActionBar(binding?.toolbar)
         supportActionBar?.setDisplayShowTitleEnabled(false)
+        setActionBarColor(ContextCompat.getColor(this, R.color.forestDensity))
 
         model.requestAllData()
 

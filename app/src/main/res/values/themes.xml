@@ -2,9 +2,9 @@
     <!-- Base application theme. -->
     <style name="Theme.Zeljade" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/radFootprint</item>
-        <item name="colorPrimaryVariant">@color/radFootprintDark</item>
-        <item name="colorOnPrimary">@color/white</item>
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryVariant">@color/forestDensity</item>
+        <item name="colorOnPrimary">@color/distantRock</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/forestDensity</item>
         <item name="colorSecondaryVariant">@color/distantRock</item>
@@ -13,6 +13,7 @@
         <item name="android:statusBarColor" tools:targetApi="21">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
         <item name="windowActionBarOverlay">true</item>
+        <item name="android:editTextColor">@android:color/white</item>
     </style>
 
     <style name="Theme.Zeljade.NoActionBar">

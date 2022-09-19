@@ -1,6 +1,5 @@
 package com.stefick.zeljade.features.base
 
-import android.content.Context
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -12,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import com.stefick.zeljade.R
-import com.stefick.zeljade.features.home.presentation.HomeActivity
 
 abstract class BaseFragment<TBinding : ViewBinding> : Fragment(), ToolbarHost {
 

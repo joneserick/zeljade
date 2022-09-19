@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.stefick.zeljade.custom.shared.extensions.capitalizeWords
 import com.stefick.zeljade.databinding.LayoutCategoryItemBinding
 import com.stefick.zeljade.features.home.models.CategoryCardItem
 
@@ -42,7 +43,7 @@ class CategoryItemViewHolder(val binding: LayoutCategoryItemBinding) :
             .centerCrop()
             .into(binding.categoryImage)
 
-        binding.categoryName.text = item.name
+        binding.categoryName.text = item.name?.capitalizeWords()
 
     }
 

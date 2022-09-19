@@ -11,6 +11,7 @@ import com.stefick.zeljade.R
 import com.stefick.zeljade.core.api.CompendiumRemoteService
 import com.stefick.zeljade.core.models.CategoryEnum
 import com.stefick.zeljade.core.repository.CompendiumRepository
+import com.stefick.zeljade.custom.shared.extensions.capitalizeWords
 import com.stefick.zeljade.databinding.FragmentCategoryDetailsBinding
 import com.stefick.zeljade.features.base.BaseFragment
 import com.stefick.zeljade.features.home.presentation.HomeActivity
@@ -27,18 +28,14 @@ class CategoryDetailsFragment : BaseFragment<FragmentCategoryDetailsBinding>() {
 
     private var adapter: CategoryItemDetailsAdapter? = null
 
-    private val model: HomeViewModel by activityViewModels {
-        HomeViewModel.HomeViewModelFactory(
-            CompendiumRepository(CompendiumRemoteService())
-        )
-    }
+    private val model: HomeViewModel by activityViewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             category = it.getString(CATEGORY_PARAM)
         }
-        setActionBarTitle(category.toString())
+        setActionBarTitle(category.toString().capitalizeWords())
         setHasOptionsMenu(true)
     }
 
@@ -74,7 +71,6 @@ class CategoryDetailsFragment : BaseFragment<FragmentCategoryDetailsBinding>() {
 
             override fun onQueryTextChange(search: String): Boolean {
                 adapter?.filter?.filter(search)
-                Log.e("HOMEEE>>>>", search)
                 return true
             }
         })
@@ -88,7 +84,6 @@ class CategoryDetailsFragment : BaseFragment<FragmentCategoryDetailsBinding>() {
     ): FragmentCategoryDetailsBinding {
         return FragmentCategoryDetailsBinding.inflate(inflater, container, false)
     }
-
 
     override fun onBackPressed(): Boolean {
         finish()

@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.bumptech.glide.Glide
 import com.stefick.zeljade.R
-import com.stefick.zeljade.core.models.CategoryEnum
 import com.stefick.zeljade.core.models.EntryResponse
+import com.stefick.zeljade.custom.shared.extensions.capitalizeWords
 import com.stefick.zeljade.databinding.FragmentCompendiumItemDetailsBinding
 import com.stefick.zeljade.features.base.BaseFragment
 import com.stefick.zeljade.features.home.presentation.HomeViewModel
@@ -31,7 +31,6 @@ class CompendiumItemDetailsFragment : BaseFragment<FragmentCompendiumItemDetails
         }
 
         model.requestEntry(entryId ?: 0)
-
     }
 
     override fun onCreateViewBinding(
@@ -54,13 +53,18 @@ class CompendiumItemDetailsFragment : BaseFragment<FragmentCompendiumItemDetails
                     )
                     .into(itemImage)
 
-                itemName.text = entry?.data?.name
+
+                val title = entry?.data?.name ?: getString(R.string.str_not_available)
+                itemName.text = title.capitalizeWords()
+                itemDescription.text = entry?.data?.description ?: getString(R.string.str_not_available)
 
                 entry.data?.commonLocations?.let {
                     itemCommonLocations.apply {
                         layoutManager = getSharedLayoutManager()
                         adapter = SpecsListAdapter(it)
+                        visibility = View.VISIBLE
                     }
+                    itemCommonLocationsLabel.visibility = View.VISIBLE
                 }
                 setupSpecsList(entry)
             }

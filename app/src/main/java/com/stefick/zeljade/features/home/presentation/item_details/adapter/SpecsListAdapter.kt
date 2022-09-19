@@ -4,11 +4,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.stefick.zeljade.R
+import com.stefick.zeljade.custom.shared.extensions.capitalizeWords
 import com.stefick.zeljade.databinding.LayoutSpecItemBinding
 
 class SpecsListAdapter(private val specs: List<String>) :
     RecyclerView.Adapter<SpecsListAdapter.SpecListItemViewHolder>() {
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SpecListItemViewHolder {
         return SpecListItemViewHolder(
             LayoutSpecItemBinding.inflate(
@@ -22,8 +22,11 @@ class SpecsListAdapter(private val specs: List<String>) :
     override fun getItemCount(): Int =
         specs.size
 
-
     override fun onBindViewHolder(holder: SpecListItemViewHolder, position: Int) {
+        if (specs.isEmpty()) {
+            holder.bind(holder.binding.root.context.getString(R.string.str_not_available))
+            return
+        }
         holder.bind(specs.get(position))
     }
 
@@ -32,7 +35,7 @@ class SpecsListAdapter(private val specs: List<String>) :
 
         fun bind(item: String) {
             binding.specItem.text =
-                item.ifBlank { binding.root.context.getString(R.string.str_not_available) }
+                item.ifBlank { binding.root.context.getString(R.string.str_not_available) }.capitalizeWords()
         }
 
     }
