@@ -117,12 +117,14 @@ class CompendiumItemDetailsFragment : BaseFragment<FragmentCompendiumItemDetails
     private fun setupSpecsList(entry: EntryResponse) {
         binding?.run {
             entry.data?.drops?.let {
-                itemDropsList.apply {
-                    layoutManager = getSharedLayoutManager()
-                    adapter = SpecsListAdapter(it)
-                    visibility = View.VISIBLE
+                if (it.isNotEmpty()) {
+                    itemDropsList.apply {
+                        layoutManager = getSharedLayoutManager()
+                        adapter = SpecsListAdapter(it)
+                        visibility = View.VISIBLE
+                    }
+                    itemDrops.visibility = View.VISIBLE
                 }
-                itemDrops.visibility = View.VISIBLE
             }
 
             entry.data?.apply {

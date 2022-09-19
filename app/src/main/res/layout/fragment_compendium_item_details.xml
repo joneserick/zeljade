@@ -15,19 +15,15 @@
 
         <com.facebook.shimmer.ShimmerFrameLayout
             android:id="@+id/shimmer_view_container"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="16dp"
             android:orientation="vertical"
-            app:shimmer_duration="800">
+            app:shimmer_duration="800"
+            tools:visibility="gone">
 
             <include layout="@layout/category_details_placeholder" />
-            <!--            <FrameLayout-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:orientation="vertical"> -->
-            <!--            </FrameLayout>-->
 
         </com.facebook.shimmer.ShimmerFrameLayout>
 
@@ -54,7 +50,8 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="16dp"
                 android:textColor="@color/white"
-                android:textSize="20sp"
+                android:textSize="22sp"
+                android:textStyle="bold"
                 tools:text="Item name" />
 
             <TextView
@@ -63,6 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="42dp"
                 android:paddingStart="16dp"
+                android:justificationMode="inter_word"
                 android:paddingEnd="16dp"
                 android:textColor="@color/white"
                 android:textSize="16sp"
@@ -73,10 +71,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="18dp"
                 android:text="@string/common_locations_label"
                 android:textColor="@color/white"
                 android:textSize="18sp"
+                android:textStyle="bold"
                 android:visibility="gone"
                 tools:visibility="visible" />
 
@@ -101,6 +100,7 @@
                 android:text="@string/attributes_label"
                 android:textColor="@color/white"
                 android:textSize="18sp"
+                android:textStyle="bold"
                 android:visibility="gone"
                 tools:visibility="visible" />
 
@@ -125,6 +125,7 @@
                 android:text="@string/drops_label"
                 android:textColor="@color/white"
                 android:textSize="18sp"
+                android:textStyle="bold"
                 android:visibility="gone"
                 tools:visibility="visible" />
 
