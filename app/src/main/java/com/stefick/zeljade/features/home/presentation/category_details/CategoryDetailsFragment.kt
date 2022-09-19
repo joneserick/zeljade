@@ -1,9 +1,9 @@
 package com.stefick.zeljade.features.home.presentation.category_details
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.util.Log
+import android.view.*
+import android.widget.SearchView
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.tabs.TabLayoutMediator
@@ -25,6 +25,8 @@ class CategoryDetailsFragment : BaseFragment<FragmentCategoryDetailsBinding>() {
 
     private var category: String? = null
 
+    private var adapter: CategoryItemDetailsAdapter? = null
+
     private val model: HomeViewModel by activityViewModels {
         HomeViewModel.HomeViewModelFactory(
             CompendiumRepository(CompendiumRemoteService())
@@ -37,18 +39,12 @@ class CategoryDetailsFragment : BaseFragment<FragmentCategoryDetailsBinding>() {
             category = it.getString(CATEGORY_PARAM)
         }
         setActionBarTitle(category.toString())
-    }
-
-    override fun onCreateViewBinding(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): FragmentCategoryDetailsBinding {
-        return FragmentCategoryDetailsBinding.inflate(inflater, container, false)
+        setHasOptionsMenu(true)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         setupViewBasedOnCategory(category ?: "")
 
         model.entry.observe(viewLifecycleOwner) { entry ->
@@ -63,6 +59,36 @@ class CategoryDetailsFragment : BaseFragment<FragmentCategoryDetailsBinding>() {
             binding?.viewpager?.adapter?.notifyDataSetChanged()
         }
     }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        configureSearch()
+    }
+
+    private fun configureSearch() {
+        searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+
+            override fun onQueryTextSubmit(search: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(search: String): Boolean {
+                adapter?.filter?.filter(search)
+                Log.e("HOMEEE>>>>", search)
+                return true
+            }
+        })
+        searchView?.setOnClickListener { }
+    }
+
+    override fun onCreateViewBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): FragmentCategoryDetailsBinding {
+        return FragmentCategoryDetailsBinding.inflate(inflater, container, false)
+    }
+
 
     override fun onBackPressed(): Boolean {
         finish()
@@ -95,17 +121,13 @@ class CategoryDetailsFragment : BaseFragment<FragmentCategoryDetailsBinding>() {
     }
 
     private fun setupSimpleCategoryList() {
-        binding?.categoryItemList?.apply {
-            layoutManager =
+        adapter = CategoryItemDetailsAdapter(model.getSelectedSimpleCategoryItems(category)) { id ->
+            (activity as HomeActivity).changeFragment(CompendiumItemDetailsFragment.newInstance(id))
+        }
+        binding?.categoryItemList?.let {
+            it.layoutManager =
                 LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            adapter =
-                CategoryItemDetailsAdapter(model.getSelectedSimpleCategoryItems(category)) { id ->
-                    (activity as HomeActivity).changeFragment(
-                        CompendiumItemDetailsFragment.newInstance(
-                            id
-                        )
-                    )
-                }
+            it.adapter = adapter
         }
     }
 

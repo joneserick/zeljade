@@ -2,6 +2,8 @@ package com.stefick.zeljade.features.home.presentation.category_details.adapter
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Filter
+import android.widget.Filterable
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -10,10 +12,12 @@ import com.stefick.zeljade.core.models.CategoryResponse
 import com.stefick.zeljade.databinding.LayoutCategoryItemListItemBinding
 
 class CategoryItemDetailsAdapter(
-    private val categoryItem: List<CategoryResponse?>?,
+    private val categoryItems: List<CategoryResponse?>?,
     val onItemClick: (id: Int) -> Unit
 ) :
-    RecyclerView.Adapter<CategoryItemDetailsAdapter.CategoryItemDetailsViewHolder>() {
+    RecyclerView.Adapter<CategoryItemDetailsAdapter.CategoryItemDetailsViewHolder>(), Filterable {
+
+    var filteredItems: List<CategoryResponse?>? = categoryItems
 
     override fun onCreateViewHolder(
         parent: ViewGroup,
@@ -29,14 +33,44 @@ class CategoryItemDetailsAdapter(
     }
 
     override fun getItemCount(): Int =
-        categoryItem?.size ?: 0
+        filteredItems?.size ?: 0
 
     override fun onBindViewHolder(holder: CategoryItemDetailsViewHolder, position: Int) {
-        categoryItem?.let {
+        filteredItems?.let {
             val item = it[position]
             holder.bind(item)
             holder.binding.root.setOnClickListener { onItemClick.invoke(item?.id ?: 0) }
         }
+    }
+
+    override fun getFilter(): Filter =
+        object : Filter() {
+            override fun performFiltering(constraint: CharSequence?): FilterResults {
+                val filteredResults = if (constraint?.length == 0) {
+                    categoryItems
+                } else {
+                    getFilteredResults(constraint ?: "")
+                }
+                return FilterResults().apply {
+                    values = filteredResults
+                }
+            }
+
+            override fun publishResults(constraint: CharSequence?, results: FilterResults?) {
+                filteredItems = results?.values as ArrayList<CategoryResponse?>?
+                notifyDataSetChanged()
+            }
+
+        }
+
+    private fun getFilteredResults(constraint: CharSequence?): ArrayList<CategoryResponse?> {
+        val filtered = arrayListOf<CategoryResponse?>()
+        categoryItems?.forEach { item ->
+            if (item?.name?.lowercase()?.contains(constraint ?: "") == true) {
+                filtered.add(item)
+            }
+        }
+        return filtered
     }
 
     class CategoryItemDetailsViewHolder(val binding: LayoutCategoryItemListItemBinding) :

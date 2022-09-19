@@ -16,4 +16,6 @@
     <string name="str_attack">Attack: %d</string>
     <string name="str_defense">Defense: %d</string>
     <string name="str_not_available">Not available</string>
+    <string name="unnofficial_compendium">Unofficial Compendium - Zeljade</string>
+    <string name="app_description">I do not own any rights of Zelda Breath of the Wild trademark. This app was made just for fun.\n\nHere you can find all game related information as a pocket compendium :)</string>
 </resources>

@@ -1,5 +1,6 @@
 package com.stefick.zeljade.features.home.presentation
 
+import android.widget.ArrayAdapter
 import androidx.lifecycle.*
 import com.stefick.zeljade.core.models.*
 import com.stefick.zeljade.core.network.base.ErrorResponse
@@ -115,6 +116,10 @@ class HomeViewModel(
                 )
             }
         }
+    }
+
+    fun filterItems(): ArrayList<CategoryResponse> {
+        return arrayListOf()
     }
 
     class HomeViewModelFactory(private val repository: ICompendiumRepository) :

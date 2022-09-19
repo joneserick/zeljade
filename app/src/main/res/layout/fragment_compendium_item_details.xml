@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg_gradient_breath_to_sun"
     android:paddingBottom="32dp">
 
     <LinearLayout
@@ -29,6 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="16dp"
+            android:textColor="@color/white"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -43,6 +45,7 @@
             android:layout_marginTop="42dp"
             android:paddingStart="16dp"
             android:paddingEnd="16dp"
+            android:textColor="@color/white"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -56,6 +59,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:text="@string/common_locations_label"
+            android:textColor="@color/white"
             android:textSize="18sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/item_description" />
@@ -79,6 +83,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:text="@string/attributes_label"
+            android:textColor="@color/white"
             android:textSize="16sp"
             android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"
@@ -106,6 +111,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:text="@string/drops_label"
+            android:textColor="@color/white"
             android:textSize="16sp"
             android:visibility="gone"
             app:layout_constraintStart_toStartOf="parent"

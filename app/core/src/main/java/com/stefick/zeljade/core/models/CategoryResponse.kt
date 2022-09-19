@@ -22,5 +22,5 @@ data class CategoryResponse(
     var heartsRecovered: Double? = null,
 
     @SerializedName("common_locations")
-    var commonLocations: java.util.ArrayList<String>? = null
+    var commonLocations: ArrayList<String>? = null
 ) : Serializable

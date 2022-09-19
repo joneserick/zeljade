@@ -4,13 +4,15 @@ import android.content.Context
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.view.MenuItem.OnActionExpandListener
+import android.widget.SearchView
 import androidx.annotation.CallSuper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
+import com.stefick.zeljade.R
+import com.stefick.zeljade.features.home.presentation.HomeActivity
 
 abstract class BaseFragment<TBinding : ViewBinding> : Fragment(), ToolbarHost {
 
@@ -37,6 +39,42 @@ abstract class BaseFragment<TBinding : ViewBinding> : Fragment(), ToolbarHost {
             return null
         }
 
+    protected var searchView: SearchView? = null
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        menu.clear()
+        inflater.inflate(R.menu.search_menu, menu)
+        searchView =
+            SearchView(fragmentActivity?.supportActionBar?.themedContext ?: context)
+        menu.findItem(R.id.action_search).apply {
+            setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW or MenuItem.SHOW_AS_ACTION_IF_ROOM)
+            actionView = searchView
+            setOnActionExpandListener(object : OnActionExpandListener {
+
+                override fun onMenuItemActionExpand(menu: MenuItem): Boolean {
+                    searchView?.let {
+                        it.isIconified = false
+                        it.requestFocusFromTouch()
+                    }
+                    return true
+                }
+
+                override fun onMenuItemActionCollapse(p0: MenuItem): Boolean {
+                    searchView?.setQuery("", true)
+                    return true
+                }
+            })
+        }
+        super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_search -> true
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
     override fun setActionBarVisibility(visible: Boolean) {
         val safeActivity = activity ?: return
 
@@ -58,6 +96,7 @@ abstract class BaseFragment<TBinding : ViewBinding> : Fragment(), ToolbarHost {
             }
         }
     }
+
     override fun getActionBarTitle(): CharSequence {
         val safeActivity = activity ?: return ""
 
@@ -73,11 +112,12 @@ abstract class BaseFragment<TBinding : ViewBinding> : Fragment(), ToolbarHost {
             }
         }
     }
+
     override fun setActionBarTitle(title: CharSequence) {
         val safeActivity = activity ?: return
 
         when (safeActivity) {
-            is  ToolbarHost -> {
+            is ToolbarHost -> {
                 safeActivity.setActionBarTitle(title)
             }
             is AppCompatActivity -> {
@@ -127,6 +167,7 @@ abstract class BaseFragment<TBinding : ViewBinding> : Fragment(), ToolbarHost {
             }
         }
     }
+
     override fun setActionBarIcon(resource: Int, onClickListener: View.OnClickListener?) {
         mToolbarHost?.setActionBarIcon(resource, onClickListener)
     }

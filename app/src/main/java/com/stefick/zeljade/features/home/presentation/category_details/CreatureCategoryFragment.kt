@@ -1,11 +1,11 @@
 package com.stefick.zeljade.features.home.presentation.category_details
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.SearchView
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.stefick.zeljade.R
 import com.stefick.zeljade.core.models.CreaturesResponse
 import com.stefick.zeljade.databinding.FragmentCategoryItemBinding
 import com.stefick.zeljade.features.base.BaseFragment
@@ -14,26 +14,20 @@ import com.stefick.zeljade.features.home.presentation.HomeViewModel
 import com.stefick.zeljade.features.home.presentation.category_details.adapter.CategoryItemDetailsAdapter
 import com.stefick.zeljade.features.home.presentation.item_details.CompendiumItemDetailsFragment
 
-
 class CreatureCategoryFragment : BaseFragment<FragmentCategoryItemBinding>() {
 
     private val model: HomeViewModel by activityViewModels()
 
     private var position: Int? = null
 
+    private var adapter: CategoryItemDetailsAdapter? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
             position = it.getInt(POSITION_EXTRAS)
         }
-    }
-
-    override fun onCreateViewBinding(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): FragmentCategoryItemBinding {
-        return FragmentCategoryItemBinding.inflate(inflater, container, false)
+        setHasOptionsMenu(true)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -44,7 +38,43 @@ class CreatureCategoryFragment : BaseFragment<FragmentCategoryItemBinding>() {
         model.categories.observe(viewLifecycleOwner) { response ->
             response.data.creatures?.let { displayCreatures(it) }
         }
+    }
 
+    @Deprecated("Deprecated in Java")
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        configureSearch()
+    }
+
+    private fun configureSearch() {
+        searchView?.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+
+            override fun onQueryTextSubmit(search: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(search: String): Boolean {
+                adapter?.filter?.filter(search)
+                return true
+            }
+        })
+        searchView?.setOnClickListener { v -> v.requestFocus() }
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_search -> true
+            else -> false
+        }
+    }
+
+    override fun onCreateViewBinding(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): FragmentCategoryItemBinding {
+        return FragmentCategoryItemBinding.inflate(inflater, container, false)
     }
 
     private fun displayCreatures(creaturesResponse: CreaturesResponse) {
@@ -58,13 +88,12 @@ class CreatureCategoryFragment : BaseFragment<FragmentCategoryItemBinding>() {
             categoryItemList.layoutManager =
                 LinearLayoutManager(safeContext, LinearLayoutManager.VERTICAL, false)
 
-            categoryItemList.adapter = CategoryItemDetailsAdapter(items) { id ->
+            adapter = CategoryItemDetailsAdapter(items) { id ->
                 (activity as HomeActivity).changeFragment(
-                    CompendiumItemDetailsFragment.newInstance(
-                        id
-                    )
+                    CompendiumItemDetailsFragment.newInstance(id)
                 )
             }
+            categoryItemList.adapter = adapter
         }
     }
 

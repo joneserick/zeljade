@@ -16,7 +16,8 @@
         <activity
             android:name=".features.home.presentation.HomeActivity"
             android:exported="true"
-            android:screenOrientation="fullSensor"
+            android:windowSoftInputMode="adjustNothing"
+            android:screenOrientation="portrait"
             android:theme="@style/Theme.Zeljade.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

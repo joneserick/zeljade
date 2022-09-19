@@ -3,13 +3,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/bg_gradient_breath_to_sun"
     android:orientation="vertical"
     tools:context=".features.home.presentation.category_details.CategoryDetailsFragment">
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        app:tabSelectedTextColor="@color/brokenClaw"
+        app:tabTextColor="@color/white"
+        android:layout_height="wrap_content"
+        android:background="@null" />
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewpager"

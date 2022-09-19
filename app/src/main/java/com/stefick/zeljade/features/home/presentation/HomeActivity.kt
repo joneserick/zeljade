@@ -1,8 +1,13 @@
 package com.stefick.zeljade.features.home.presentation
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import android.widget.SearchView
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import com.stefick.zeljade.R
 import com.stefick.zeljade.core.api.CompendiumRemoteService
 import com.stefick.zeljade.core.repository.CompendiumRepository
@@ -21,6 +26,9 @@ class HomeActivity : DefaultFragmentActivity() {
 
         if (savedInstanceState != null)
             return
+
+        setSupportActionBar(binding?.toolbar)
+        supportActionBar?.setDisplayShowTitleEnabled(false)
 
         model.requestAllData()
 
