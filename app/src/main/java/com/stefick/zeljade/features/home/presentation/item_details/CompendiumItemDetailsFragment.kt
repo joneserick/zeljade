@@ -74,16 +74,15 @@ class CompendiumItemDetailsFragment : BaseFragment<FragmentCompendiumItemDetails
         setupView(entry)
     }
 
-    override fun displayError(error: ErrorResponse?) {
-        error?.let {
-            val safeActivity = activity ?: return
-            Toast.makeText(
-                safeActivity,
-                it.message ?: getString(R.string.default_error),
-                Toast.LENGTH_LONG
-            )
-                .show()
-        }
+    override fun displayError(error: Int) {
+        val safeActivity = activity ?: return
+        Toast.makeText(
+            safeActivity,
+            getString(error),
+            Toast.LENGTH_LONG
+        )
+            .show()
+
 
     }
 

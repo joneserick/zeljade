@@ -2,19 +2,15 @@ package com.stefick.zeljade.presentation
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
-import com.stefick.zeljade.core.models.CategoriesResponse
-import com.stefick.zeljade.core.models.CategoryResponse
+import com.stefick.zeljade.R
 import com.stefick.zeljade.core.models.CompendiumResponse
 import com.stefick.zeljade.core.network.base.ErrorResponse
 import com.stefick.zeljade.core.repository.ICompendiumRepository
 import com.stefick.zeljade.core.repository.Repository
 import com.stefick.zeljade.dispatchers.CoroutineDispatcherRule
-import com.stefick.zeljade.features.home.models.CategoryCardItem
 import com.stefick.zeljade.features.home.presentation.HomeViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert
 import org.junit.Before
@@ -44,7 +40,7 @@ class HomeViewModelTest {
     private lateinit var categories: Observer<CompendiumResponse>
 
     @Mock
-    private lateinit var error: Observer<ErrorResponse>
+    private lateinit var error: Observer<Int>
 
     private lateinit var viewModel: HomeViewModel
 
@@ -75,8 +71,27 @@ class HomeViewModelTest {
 
     @Test
     fun shouldNotifyErrorObserverWhenAPIReturnsAnError() {
+        val url = "mocked url"
+        val code = 500
 
-        val mockedMessage = "Not able to run"
+        val mockedResult = Repository.Result.Unknown(code, url, null)
+        val mockedFlow = flow { emit(mockedResult) }
+
+        runTest {
+            Mockito.`when`(repository.requestAllData()).thenReturn(mockedFlow)
+
+            viewModel.error.observeForever(error)
+
+            viewModel.requestAllData()
+
+        }
+        Mockito.verify(error).onChanged(R.string.default_error)
+    }
+
+    @Test
+    fun shouldNotifyTimeoutErrorObserverWhenAPIReturnsAnError() {
+
+        val mockedMessage = "Timeout"
         val url = "mocked url"
         val code = 408
 
@@ -93,7 +108,7 @@ class HomeViewModelTest {
             viewModel.requestAllData()
 
         }
-        Mockito.verify(error).onChanged(mockedError)
+        Mockito.verify(error).onChanged(R.string.timeout_error_message)
     }
 
     @Test
@@ -117,6 +132,7 @@ class HomeViewModelTest {
         Assert.assertTrue(result?.any { it.category == mockedCategory } == true)
 
     }
+
     @Test
     fun shouldReturnNullWhenGetSimpleCategoriesByInvalidCategoryName() {
         val mockedCategory = "invalid-category"

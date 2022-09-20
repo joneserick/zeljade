@@ -1,5 +1,6 @@
 package com.stefick.zeljade.presentation
 
+import com.stefick.zeljade.R
 import com.stefick.zeljade.core.network.base.ErrorResponse
 import com.stefick.zeljade.core.repository.ICompendiumRepository
 import com.stefick.zeljade.core.repository.Repository
@@ -79,7 +80,50 @@ class EntryPresenterTest {
             presenter.getEntry(mockedEntry)
         }
 
-        Mockito.verify(view).displayError(mockedResponse)
+        Mockito.verify(view).displayError(R.string.timeout_error_message)
+    }
+
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun shouldDisplayUnknownErrorWhenSingleEntryRequestFails() {
+        val mockedEntry = 0
+        val code = 500
+        val mockedUrl = "url"
+        val mockedMessage = "message"
+
+        val mockedError = ErrorResponse(arrayListOf(Mocks.getMockCompendium()), mockedMessage)
+
+        val mockedResult = Repository.Result.Unknown(code, mockedUrl, null)
+
+        val mockedErrorFlow = flow { emit(mockedResult) }
+
+        runTest {
+            Mockito.`when`(repository.requestEntryData(mockedEntry)).thenReturn(mockedErrorFlow)
+            presenter.getEntry(mockedEntry)
+        }
+
+        Mockito.verify(view).displayError(R.string.default_error)
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    @Test
+    fun shouldDisplayTimeoutErrorWhenSingleEntryRequestFails() {
+        val mockedEntry = 0
+        val code = 408
+        val mockedMessage = "error message"
+        val mockedError = ErrorResponse(arrayListOf(Mocks.getMockCompendium()), mockedMessage)
+
+        val mockedResult = Repository.Result.Failed(mockedError, code, null)
+
+        val mockedErrorFlow = flow { emit(mockedResult) }
+
+        runTest {
+            Mockito.`when`(repository.requestEntryData(mockedEntry)).thenReturn(mockedErrorFlow)
+            presenter.getEntry(mockedEntry)
+        }
+
+        Mockito.verify(view).displayError(R.string.timeout_error_message)
     }
 
 }

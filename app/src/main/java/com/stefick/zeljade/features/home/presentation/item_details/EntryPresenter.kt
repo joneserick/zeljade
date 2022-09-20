@@ -1,7 +1,9 @@
 package com.stefick.zeljade.features.home.presentation.item_details
 
+import com.stefick.zeljade.R
 import com.stefick.zeljade.core.models.EntryResponse
 import com.stefick.zeljade.core.network.base.ErrorResponse
+import com.stefick.zeljade.core.network.base.NetworkResultBase
 import com.stefick.zeljade.core.repository.ICompendiumRepository
 import com.stefick.zeljade.core.repository.Repository
 import kotlinx.coroutines.CoroutineScope
@@ -21,13 +23,12 @@ class EntryPresenter(
                 .collect { result ->
                     when (result) {
                         is Repository.Result.Success<*> -> view.displayEntry((result.result as EntryResponse))
-                        is Repository.Result.Failed<*> -> view.displayError((result.result as ErrorResponse))
+                        is Repository.Result.Failed<*> -> view.displayError(R.string.timeout_error_message)
                         is Repository.Result.Unknown -> {
-                            result.responseBody?.let {
-                                view.displayError(ErrorResponse(null, it.toString()))
-                            }
+                            view.displayError(R.string.default_error)
+
                         }
-                        else -> view.displayError(ErrorResponse(null, null))
+                        else -> view.displayError(R.string.unknown_error)
                     }
                 }
         }

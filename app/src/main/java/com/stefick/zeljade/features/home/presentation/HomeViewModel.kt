@@ -1,6 +1,7 @@
 package com.stefick.zeljade.features.home.presentation
 
 import androidx.lifecycle.*
+import com.stefick.zeljade.R
 import com.stefick.zeljade.core.models.CategoryEnum
 import com.stefick.zeljade.core.models.CategoryResponse
 import com.stefick.zeljade.core.models.CompendiumResponse
@@ -17,12 +18,12 @@ class HomeViewModel(
         MutableLiveData<CompendiumResponse>()
     }
 
-    private val _error: MutableLiveData<ErrorResponse> by lazy {
-        MutableLiveData<ErrorResponse>()
+    private val _error: MutableLiveData<Int> by lazy {
+        MutableLiveData<Int>()
     }
 
     val categories: LiveData<CompendiumResponse> = _categories
-    val error: LiveData<ErrorResponse> = _error
+    val error: LiveData<Int> = _error
 
     fun requestAllData() {
         viewModelScope.launch {
@@ -31,13 +32,12 @@ class HomeViewModel(
                     when (result) {
                         is Repository.Result.Success<*> -> _categories.value =
                             (result.result as CompendiumResponse)
-                        is Repository.Result.Failed<*> -> _error.value =
-                            result.result as ErrorResponse
+                        is Repository.Result.Failed<*> -> _error.value = R.string.timeout_error_message
                         is Repository.Result.Unknown -> {
-                            if (result.responseBody != null)
-                                _error.value = ErrorResponse(null, result.responseBody?.toString())
+                                _error.value = R.string.default_error
                         }
-                        else -> _error.value = ErrorResponse(null, null)
+                        else -> _error.value = R.string.unknown_error
+
 
                     }
                 }

@@ -49,7 +49,7 @@ internal class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
             model.error.observe(viewLifecycleOwner) {
                 val safeActivity = activity ?: return@observe
-                Toast.makeText(safeActivity, it.message, Toast.LENGTH_LONG).show()
+                Toast.makeText(safeActivity, getString(it), Toast.LENGTH_LONG).show()
             }
         }
 

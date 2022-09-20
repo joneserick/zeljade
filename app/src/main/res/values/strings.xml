@@ -19,4 +19,7 @@
     <string name="unnofficial_compendium">Unofficial Compendium - Zeljade</string>
     <string name="app_description">I do not own any rights of Zelda Breath of the Wild trademark. This app was made just for fun.\n\nHere you can find all game related information as a pocket compendium :)</string>
     <string name="default_error">A problem occurred while trying to request.</string>
+    <string name="not_able_to_load_try_again">The server isn\'t responding, try again later.</string>
+    <string name="unknown_error">An unexpected error ocurred, please contact our support.</string>
+    <string name="timeout_error_message">The request is taking so long, to complete, try again!</string>
 </resources>
