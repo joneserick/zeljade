@@ -1,9 +1,6 @@
 package com.stefick.zeljade.presentation
 
-import com.stefick.zeljade.core.models.CategoriesResponse
-import com.stefick.zeljade.core.models.CategoryResponse
-import com.stefick.zeljade.core.models.CompendiumResponse
-import com.stefick.zeljade.core.models.CreaturesResponse
+import com.stefick.zeljade.core.models.*
 
 object Mocks {
 
@@ -19,6 +16,10 @@ object Mocks {
         )
         return CompendiumResponse(data)
     }
+
+    @JvmStatic
+    fun getMockEntryResponse(): EntryResponse =
+        EntryResponse(getMockCategoryResponse("monsters")) // any category just for test purpose
 
     private fun getMockCreaturesResponse(): CreaturesResponse =
         CreaturesResponse(

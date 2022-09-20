@@ -1,17 +1,17 @@
 package com.stefick.zeljade.features.home.presentation
 
-import android.widget.ArrayAdapter
 import androidx.lifecycle.*
-import com.stefick.zeljade.core.models.*
+import com.stefick.zeljade.core.models.CategoryEnum
+import com.stefick.zeljade.core.models.CategoryResponse
+import com.stefick.zeljade.core.models.CompendiumResponse
 import com.stefick.zeljade.core.network.base.ErrorResponse
 import com.stefick.zeljade.core.repository.ICompendiumRepository
 import com.stefick.zeljade.core.repository.Repository
-import com.stefick.zeljade.features.home.models.CategoryCardItem
 import kotlinx.coroutines.launch
 
 class HomeViewModel(
     private val repository: ICompendiumRepository
-) : ViewModel(), LifecycleObserver {
+) : ViewModel() {
 
     private val _categories: MutableLiveData<CompendiumResponse> by lazy {
         MutableLiveData<CompendiumResponse>()
@@ -34,9 +34,10 @@ class HomeViewModel(
                         is Repository.Result.Failed<*> -> _error.value =
                             result.result as ErrorResponse
                         is Repository.Result.Unknown -> {
-                            _error.value = ErrorResponse(null, "Unknown Error")
+                            if (result.responseBody != null)
+                                _error.value = ErrorResponse(null, result.responseBody?.toString())
                         }
-                        else -> _error.value = ErrorResponse(null, "Unknown Error")
+                        else -> _error.value = ErrorResponse(null, null)
 
                     }
                 }

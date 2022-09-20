@@ -136,36 +136,4 @@ class HomeViewModelTest {
 
         Assert.assertTrue(result == null)
     }
-
-    @Test
-    fun shouldReturnCategoriesListAsSimpleDisplayableItems() {
-        val mockedResponse = Mocks.getMockCompendium()
-        val mockedCategories = arrayListOf("monsters", "creatures", "materials", "treasure", "equipment")
-        val code = 200
-
-        val mockedResult = Repository.Result.Success(mockedResponse, code)
-        val mockedFlow = flow { emit(mockedResult) }
-
-        runTest {
-            Mockito.`when`(repository.requestAllData()).thenReturn(mockedFlow)
-            viewModel.categories.observeForever(categories)
-            viewModel.requestAllData()
-        }
-
-        val result = viewModel.getEachCategory(viewModel.categories.value?.data)
-
-        Assert.assertTrue(result.isNotEmpty())
-        mockedCategories.forEach { category ->
-            result.forEach { item ->
-                Assert.assertEquals(category, item.name)
-            }
-        }
-//        mockedResponse.data.
-
-
-//        Assert.assertEquals()
-
-//    fun getEachCategory(categories: CategoriesResponse?): List<CategoryCardItem> {
-    }
-
 }

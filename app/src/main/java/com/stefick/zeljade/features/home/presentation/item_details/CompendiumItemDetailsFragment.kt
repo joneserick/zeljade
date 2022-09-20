@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
@@ -13,12 +13,13 @@ import com.bumptech.glide.Glide
 import com.stefick.zeljade.R
 import com.stefick.zeljade.core.api.CompendiumRemoteService
 import com.stefick.zeljade.core.models.EntryResponse
+import com.stefick.zeljade.core.network.base.ErrorResponse
 import com.stefick.zeljade.core.repository.CompendiumRepository
 import com.stefick.zeljade.custom.shared.extensions.capitalizeWords
 import com.stefick.zeljade.databinding.FragmentCompendiumItemDetailsBinding
 import com.stefick.zeljade.features.base.BaseFragment
-import com.stefick.zeljade.features.home.presentation.HomeViewModel
 import com.stefick.zeljade.features.home.presentation.item_details.adapter.SpecsListAdapter
+import kotlin.math.roundToInt
 
 class CompendiumItemDetailsFragment : BaseFragment<FragmentCompendiumItemDetailsBinding>(),
     EntryViewContract {
@@ -73,8 +74,17 @@ class CompendiumItemDetailsFragment : BaseFragment<FragmentCompendiumItemDetails
         setupView(entry)
     }
 
-    override fun displayError(message: String) {
-        TODO("Not yet implemented")
+    override fun displayError(error: ErrorResponse?) {
+        error?.let {
+            val safeActivity = activity ?: return
+            Toast.makeText(
+                safeActivity,
+                it.message ?: getString(R.string.default_error),
+                Toast.LENGTH_LONG
+            )
+                .show()
+        }
+
     }
 
     private fun setupView(entry: EntryResponse) {
@@ -130,7 +140,7 @@ class CompendiumItemDetailsFragment : BaseFragment<FragmentCompendiumItemDetails
             entry.data?.apply {
                 val specs = arrayListOf<String>()
                 heartsRecovered?.let {
-                    specs.add(getString(R.string.str_hearts_recovered, it))
+                    specs.add(getString(R.string.str_hearts_recovered, "%.1f".format(it)))
                 }
                 cookingEffect?.let {
                     specs.add(getString(R.string.str_cooking_effect, it))

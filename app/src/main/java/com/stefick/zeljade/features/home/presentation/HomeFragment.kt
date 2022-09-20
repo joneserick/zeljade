@@ -33,21 +33,23 @@ internal class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
             setActionBarTitle(getString(R.string.app_name))
 
-            categories.let {
-                it.layoutManager =
-                    LinearLayoutManager(safeContext, LinearLayoutManager.HORIZONTAL, false)
-            }
+            categories.layoutManager =
+                LinearLayoutManager(safeContext, LinearLayoutManager.HORIZONTAL, false)
 
             model.categories.observe(viewLifecycleOwner) {
                 categories.adapter = HomeCategoryAdapter(it.data) { selectedCategory ->
-                    (activity as HomeActivity).changeFragment(
+
+                    val safeActivity = activity ?: return@HomeCategoryAdapter
+
+                    (safeActivity as HomeActivity).changeFragment(
                         CategoryDetailsFragment.newInstance(selectedCategory?.name), true
                     )
                 }
             }
 
             model.error.observe(viewLifecycleOwner) {
-                Toast.makeText(activity, it.message, Toast.LENGTH_LONG).show()
+                val safeActivity = activity ?: return@observe
+                Toast.makeText(safeActivity, it.message, Toast.LENGTH_LONG).show()
             }
         }
 
