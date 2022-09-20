@@ -74,15 +74,14 @@ class CompendiumItemDetailsFragment : BaseFragment<FragmentCompendiumItemDetails
         setupView(entry)
     }
 
-    override fun displayError(error: Int) {
+    override fun displayError(message: Int) {
         val safeActivity = activity ?: return
         Toast.makeText(
             safeActivity,
-            getString(error),
+            getString(message),
             Toast.LENGTH_LONG
         )
             .show()
-
 
     }
 
@@ -94,7 +93,7 @@ class CompendiumItemDetailsFragment : BaseFragment<FragmentCompendiumItemDetails
                 .placeholder(
                     ContextCompat.getDrawable(
                         root.context,
-                        R.drawable.loading_image
+                        R.drawable.bg_oval_solid_distant_rock
                     )
                 )
                 .into(itemImage)

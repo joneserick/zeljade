@@ -84,7 +84,7 @@ class CategoryItemDetailsAdapter(
                 .placeholder(
                     ContextCompat.getDrawable(
                         binding.root.context,
-                        R.drawable.loading_image
+                        R.drawable.bg_oval_solid_distant_rock
                     )
                 )
                 .into(binding.itemImage)
