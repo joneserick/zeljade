@@ -6,5 +6,4 @@ data class CategoriesResponse(
     var materials: ArrayList<CategoryResponse>? = null,
     var monsters: ArrayList<CategoryResponse>? = null,
     var treasure: ArrayList<CategoryResponse>? = null,
-    var selectedCategory: String? = null
 )

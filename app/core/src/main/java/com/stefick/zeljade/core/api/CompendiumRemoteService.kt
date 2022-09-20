@@ -8,10 +8,10 @@ import com.stefick.zeljade.core.network.base.NetworkResultBase
 
 class CompendiumRemoteService() : NetworkFactory<CompendiumAPI>(CompendiumAPI::class.java),
     CompendiumRemoteDataSource {
-    override suspend fun requestAllData(): NetworkResultBase<CompendiumResponse, ErrorResponse>? =
+    override suspend fun requestAllData(): NetworkResultBase<CompendiumResponse, ErrorResponse?>? =
         api.requestAllData()
 
-    override suspend fun requestEntryData(entryId: Int): NetworkResultBase<EntryResponse, ErrorResponse>? =
+    override suspend fun requestEntryData(entryId: Int): NetworkResultBase<EntryResponse, ErrorResponse?>? =
         api.requestEntryData(entryId)
 
 }

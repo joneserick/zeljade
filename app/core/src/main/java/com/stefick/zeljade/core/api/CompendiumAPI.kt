@@ -9,8 +9,8 @@ import retrofit2.http.Path
 
 interface CompendiumAPI {
     @GET("all")
-    suspend fun requestAllData(): NetworkResultBase<CompendiumResponse, ErrorResponse>?
+    suspend fun requestAllData(): NetworkResultBase<CompendiumResponse, ErrorResponse?>?
     @GET("entry/{entry}")
-    suspend fun requestEntryData(@Path("entry") entryId: Int): NetworkResultBase<EntryResponse, ErrorResponse>?
+    suspend fun requestEntryData(@Path("entry") entryId: Int): NetworkResultBase<EntryResponse, ErrorResponse?>?
 
 }

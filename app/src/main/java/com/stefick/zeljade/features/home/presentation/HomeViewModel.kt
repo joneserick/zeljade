@@ -17,17 +17,12 @@ class HomeViewModel(
         MutableLiveData<CompendiumResponse>()
     }
 
-    private val _entry: MutableLiveData<EntryResponse> by lazy {
-        MutableLiveData<EntryResponse>()
-    }
-
-    private val _error: MutableLiveData<String> by lazy {
-        MutableLiveData<String>()
+    private val _error: MutableLiveData<ErrorResponse> by lazy {
+        MutableLiveData<ErrorResponse>()
     }
 
     val categories: LiveData<CompendiumResponse> = _categories
-    val entry: LiveData<EntryResponse> = _entry
-    val error: LiveData<String> = _error
+    val error: LiveData<ErrorResponse> = _error
 
     fun requestAllData() {
         viewModelScope.launch {
@@ -37,31 +32,12 @@ class HomeViewModel(
                         is Repository.Result.Success<*> -> _categories.value =
                             (result.result as CompendiumResponse)
                         is Repository.Result.Failed<*> -> _error.value =
-                            ((result.result as ErrorResponse).message)
+                            result.result as ErrorResponse
                         is Repository.Result.Unknown -> {
-                            _error.value = "WIP: should improve error response: ${result.url}"
+                            _error.value = ErrorResponse(null, "Unknown Error")
                         }
-                        else -> _error.value = "WIP: default error value"
-                    }
-                }
-        }
-    }
+                        else -> _error.value = ErrorResponse(null, "Unknown Error")
 
-
-    fun requestEntry(entryId: Int) {
-        viewModelScope.launch {
-            repository.requestEntryData(entryId)
-                .collect { result ->
-                    when (result) {
-                        is Repository.Result.Success<*> -> _entry.postValue(
-                            (result.result as EntryResponse)
-                        )
-                        is Repository.Result.Failed<*> -> _error.value =
-                            ((result.result as ErrorResponse).message)
-                        is Repository.Result.Unknown -> {
-                            _error.value = "WIP: should improve error response: ${result.url}"
-                        }
-                        else -> _error.value = "WIP: default error value"
                     }
                 }
         }
@@ -75,52 +51,6 @@ class HomeViewModel(
             CategoryEnum.MONSTERS.category -> categories.value?.data?.monsters
             else -> null
         }
-    }
-
-    fun getEachCategory(categories: CategoriesResponse?): List<CategoryCardItem> {
-        return arrayListOf<CategoryCardItem>().apply {
-            categories.let { model ->
-                val creatures = model?.creatures?.nonFood?.first() // improve to identify type
-                add(
-                    CategoryCardItem(
-                        name = creatures?.category,
-                        image = creatures?.image
-                    )
-                )
-                val materials = model?.materials?.first()
-                add(
-                    CategoryCardItem(
-                        name = materials?.category,
-                        image = materials?.image
-                    )
-                )
-                val monsters = model?.monsters?.first()
-                add(
-                    CategoryCardItem(
-                        name = monsters?.category,
-                        image = monsters?.image
-                    )
-                )
-                val equipment = model?.equipment?.first()
-                add(
-                    CategoryCardItem(
-                        name = equipment?.category,
-                        image = equipment?.image
-                    )
-                )
-                val treasure = model?.treasure?.first()
-                add(
-                    CategoryCardItem(
-                        name = treasure?.category,
-                        image = treasure?.image
-                    )
-                )
-            }
-        }
-    }
-
-    fun filterItems(): ArrayList<CategoryResponse> {
-        return arrayListOf()
     }
 
     class HomeViewModelFactory(private val repository: ICompendiumRepository) :

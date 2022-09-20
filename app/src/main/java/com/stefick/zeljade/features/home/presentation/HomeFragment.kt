@@ -39,16 +39,15 @@ internal class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             }
 
             model.categories.observe(viewLifecycleOwner) {
-                val categoriesList = model.getEachCategory(it.data)
-                categories.adapter = HomeCategoryAdapter(categoriesList) { selectedCategory ->
+                categories.adapter = HomeCategoryAdapter(it.data) { selectedCategory ->
                     (activity as HomeActivity).changeFragment(
-                        CategoryDetailsFragment.newInstance(selectedCategory.name), true
+                        CategoryDetailsFragment.newInstance(selectedCategory?.name), true
                     )
                 }
             }
 
             model.error.observe(viewLifecycleOwner) {
-                Toast.makeText(activity, it, Toast.LENGTH_LONG).show()
+                Toast.makeText(activity, it.message, Toast.LENGTH_LONG).show()
             }
         }
 
