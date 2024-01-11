@@ -12,12 +12,13 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.Zeljade"
+        android:name=".AppZeljade"
         tools:targetApi="34">
         <activity
             android:name=".features.home.presentation.HomeActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustNothing"
-            android:screenOrientation="portrait"
+            android:screenOrientation="fullSensor"
             android:theme="@style/Theme.Zeljade.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
