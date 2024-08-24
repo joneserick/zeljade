@@ -3,7 +3,7 @@ package com.stefick.zeljade.core.repository
 import com.stefick.zeljade.core.api.CompendiumRemoteDataSource
 import com.stefick.zeljade.core.mocks.CompendiumMocks
 import com.stefick.zeljade.core.mocks.ExceptionMocks
-import com.stefick.zeljade.core.models.CompendiumResponse
+import com.stefick.zeljade.core.dto.CompendiumDTO
 import com.stefick.zeljade.core.network.base.ErrorResponse
 import com.stefick.zeljade.core.network.base.NetworkResultBase
 import com.stefick.zeljade.core.repository.Repository.Result
@@ -53,7 +53,7 @@ class CompendiumRepositoryTest {
 
             repository.requestAllData().collect { result ->
                 val response = result as Result.Success<*>
-                assert(response.result is CompendiumResponse)
+                assert(response.result is CompendiumDTO)
             }
         }
     }

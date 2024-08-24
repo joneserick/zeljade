@@ -1,8 +1,8 @@
 package com.stefick.zeljade.core.network.base
 
-import com.stefick.zeljade.core.models.CompendiumResponse
+import com.stefick.zeljade.core.dto.CompendiumDTO
 
 data class ErrorResponse(
-    val data: ArrayList<CompendiumResponse>?,
+    val data: ArrayList<CompendiumDTO>?,
     val message: String?
 )

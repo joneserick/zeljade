@@ -46,9 +46,9 @@ class CategoryDetailsFragment : BaseFragment<FragmentCategoryDetailsBinding>() {
 
         setupViewBasedOnCategory(category ?: "")
 
-        model.categories.observe(viewLifecycleOwner) {
-            setupViewBasedOnCategory(category ?: "")
-        }
+//        model.categories.observe(viewLifecycleOwner) {
+//            setupViewBasedOnCategory(category ?: "")
+//        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -87,19 +87,19 @@ class CategoryDetailsFragment : BaseFragment<FragmentCategoryDetailsBinding>() {
     }
 
     private fun setupSimpleCategoryList() {
-        adapter = CategoryItemDetailsAdapter(model.getSelectedSimpleCategoryItems(category)) { id ->
-            (activity as HomeActivity).changeFragment(CompendiumItemDetailsFragment.newInstance(id))
-        }
-        binding?.categoryItemList?.let {
-            it.layoutManager =
-                LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-            it.adapter = adapter
-        }
-        binding?.run {
-            categoryItemList.visibility = View.VISIBLE
-            viewpager.visibility = View.GONE
-            tabLayout.visibility = View.GONE
-        }
+//        adapter = CategoryItemDetailsAdapter(model.getSelectedSimpleCategoryItems(category)) { id ->
+//            (activity as HomeActivity).changeFragment(CompendiumItemDetailsFragment.newInstance(id))
+//        }
+//        binding?.categoryItemList?.let {
+//            it.layoutManager =
+//                LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+//            it.adapter = adapter
+//        }
+//        binding?.run {
+//            categoryItemList.visibility = View.VISIBLE
+//            viewpager.visibility = View.GONE
+//            tabLayout.visibility = View.GONE
+//        }
     }
 
     private fun setupCreatureList() {

@@ -22,13 +22,13 @@ class EntryPresenter(
                 .onStart { view.showLoader() }
                 .collect { result ->
                     when (result) {
-                        is Repository.Result.Success<*> -> view.displayEntry((result.result as EntryResponse))
-                        is Repository.Result.Failed<*> -> view.displayError(R.string.timeout_error_message)
-                        is Repository.Result.Unknown -> {
-                            view.displayError(R.string.default_error)
-
-                        }
-                        else -> view.displayError(R.string.unknown_error)
+//                        is Repository.Result.Success<*> -> view.displayEntry((result.result as EntryResponse))
+//                        is Repository.Result.Failed<*> -> view.displayError(R.string.timeout_error_message)
+//                        is Repository.Result.Unknown -> {
+//                            view.displayError(R.string.default_error)
+//
+//                        }
+//                        else -> view.displayError(R.string.unknown_error)
                     }
                 }
         }

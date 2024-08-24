@@ -1,42 +1,53 @@
 package com.stefick.zeljade.features.home.presentation
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
-import android.widget.SearchView
-import android.widget.Toast
-import androidx.activity.viewModels
-import androidx.core.content.ContextCompat
-import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import com.stefick.zeljade.R
-import com.stefick.zeljade.core.api.CompendiumRemoteService
-import com.stefick.zeljade.core.repository.CompendiumRepository
-import com.stefick.zeljade.features.base.DefaultFragmentActivity
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.platform.LocalLifecycleOwner
+import androidx.hilt.navigation.compose.hiltViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
-class HomeActivity : DefaultFragmentActivity() {
+@AndroidEntryPoint
+class HomeActivity : ComponentActivity() {
 
-    private val model: HomeViewModel by viewModels {
-        HomeViewModel.HomeViewModelFactory(
-            CompendiumRepository(CompendiumRemoteService())
-        )
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         if (savedInstanceState != null)
             return
 
-        setSupportActionBar(binding?.toolbar)
-        supportActionBar?.setDisplayShowTitleEnabled(false)
-        setActionBarColor(ContextCompat.getColor(this, R.color.forestDensity))
+        setContent {
 
-        model.requestAllData()
 
-        model.categories.observe(this) {
-            changeFragment(HomeFragment.newInstance(), R.id.fragment_container, false)
+            MaterialTheme {
+
+                val model = hiltViewModel<HomeViewModel>()
+
+                LaunchedEffect(key1 = Unit) {
+                    model.requestAllData()
+                }
+
+                model.compendium.observe(LocalLifecycleOwner.current) {
+                    it?.let { item ->
+                        for (value in item.entries) {
+                            println(value)
+                        }
+                    }
+                }
+            }
         }
+
+//        setSupportActionBar(binding?.toolbar)
+//        supportActionBar?.setDisplayShowTitleEnabled(false)
+//        setActionBarColor(ContextCompat.getColor(this, R.color.forestDensity))
+//
+//        model.requestAllData()
+//
+//        model.compendium.observe(this) {
+//            changeFragment(HomeFragment.newInstance(), R.id.fragment_container, false)
+//        }
 
     }
 

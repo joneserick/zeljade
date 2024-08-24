@@ -4,13 +4,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.stefick.zeljade.core.models.CategoriesResponse
+import com.stefick.zeljade.core.dto.CategoriesDTO
 import com.stefick.zeljade.custom.shared.extensions.capitalizeWords
 import com.stefick.zeljade.databinding.LayoutCategoryItemBinding
 import com.stefick.zeljade.features.home.models.CategoryCardItem
 
 class HomeCategoryAdapter(
-    private val categories: CategoriesResponse,
+    private val categories: CategoriesDTO,
     private val onItemClick: (item: CategoryCardItem?) -> Unit
 ) :
     RecyclerView.Adapter<CategoryItemViewHolder>() {
