@@ -1,4 +1,4 @@
-package com.stefick.zeljade.core.di.network
+package com.stefick.zeljade.core.di.repository
 
 import com.stefick.zeljade.core.repository.CompendiumRepository
 import com.stefick.zeljade.core.repository.ICompendiumRepository

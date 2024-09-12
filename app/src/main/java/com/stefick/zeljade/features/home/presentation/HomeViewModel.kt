@@ -56,16 +56,6 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-//    fun getSelectedSimpleCategoryItems(category: String?): ArrayList<CategoryResponse>? {
-//        return when (category) {
-//            CategoryEnum.EQUIPMENT.category -> categories.value?.data?.equipment
-//            CategoryEnum.MATERIALS.category -> categories.value?.data?.materials
-//            CategoryEnum.TREASURE.category -> categories.value?.data?.treasure
-//            CategoryEnum.MONSTERS.category -> categories.value?.data?.monsters
-//            else -> null
-//        }
-//    }
-
     class HomeViewModelFactory(private val repository: ICompendiumRepository) :
         ViewModelProvider.NewInstanceFactory() {
 

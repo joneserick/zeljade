@@ -39,16 +39,6 @@ class HomeActivity : ComponentActivity() {
             }
         }
 
-//        setSupportActionBar(binding?.toolbar)
-//        supportActionBar?.setDisplayShowTitleEnabled(false)
-//        setActionBarColor(ContextCompat.getColor(this, R.color.forestDensity))
-//
-//        model.requestAllData()
-//
-//        model.compendium.observe(this) {
-//            changeFragment(HomeFragment.newInstance(), R.id.fragment_container, false)
-//        }
-
     }
 
 }

@@ -1,4 +1,4 @@
-package com.stefick.zeljade.core.di.network
+package com.stefick.zeljade.core.di.datasource
 
 import com.stefick.zeljade.core.api.CompendiumRemoteDataSource
 import com.stefick.zeljade.core.api.CompendiumRemoteService

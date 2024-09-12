@@ -5,16 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.compose.runtime.collectAsState
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.stefick.zeljade.R
 import com.stefick.zeljade.databinding.FragmentHomeBinding
 import com.stefick.zeljade.features.base.BaseFragment
-import com.stefick.zeljade.features.home.presentation.adapter.HomeCategoryAdapter
-import com.stefick.zeljade.features.home.presentation.category_details.CategoryDetailsFragment
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.flow.observeOn
 
 internal class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
@@ -42,14 +37,6 @@ internal class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             model.compendium.observe(viewLifecycleOwner) {
                 Toast.makeText(requireContext(), "Requested!! ${it?.entries}", Toast.LENGTH_LONG).show()
                 println("Requested!! ${it?.entries}")
-//                categories.adapter = HomeCategoryAdapter(it.data) { selectedCategory ->
-//
-//                    val safeActivity = activity ?: return@HomeCategoryAdapter
-//
-//                    (safeActivity as HomeActivity).changeFragment(
-//                        CategoryDetailsFragment.newInstance(selectedCategory?.name), true
-//                    )
-//                }
             }
 
             model.error.observe(viewLifecycleOwner) {

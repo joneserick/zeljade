@@ -1,4 +1,4 @@
-package com.stefick.zeljade.core.di.network
+package com.stefick.zeljade.core.di.base
 
 import com.stefick.zeljade.core.api.CompendiumAPI
 import com.stefick.zeljade.core.network.base.DEFAULT_READ_TIMEOUT_VALUE

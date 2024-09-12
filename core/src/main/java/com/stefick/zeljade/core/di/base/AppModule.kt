@@ -1,4 +1,4 @@
-package com.stefick.zeljade.core.di.network
+package com.stefick.zeljade.core.di.base
 
 import dagger.Module
 import dagger.Provides

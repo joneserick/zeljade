@@ -10,11 +10,4 @@ class AppZeljade : Application() {
         super.onCreate()
     }
 
-    /*
-
-    Differences between Koin and Hilt
-    Koin is runtime
-    Dagger is at compile time (faster)
-     */
-
 }
