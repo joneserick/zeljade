@@ -3,7 +3,7 @@ package com.stefick.zeljade.presentation
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.stefick.zeljade.R
-import com.stefick.zeljade.core.models.CompendiumResponse
+import com.stefick.zeljade.core.dto.CompendiumDTO
 import com.stefick.zeljade.core.network.base.ErrorResponse
 import com.stefick.zeljade.core.repository.ICompendiumRepository
 import com.stefick.zeljade.core.repository.Repository
@@ -37,7 +37,7 @@ class HomeViewModelTest {
     private lateinit var repository: ICompendiumRepository
 
     @Mock
-    private lateinit var categories: Observer<CompendiumResponse>
+    private lateinit var categories: Observer<CompendiumDTO>
 
     @Mock
     private lateinit var error: Observer<Int>

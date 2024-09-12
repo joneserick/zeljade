@@ -1,20 +1,22 @@
 package com.stefick.zeljade.presentation
 
+import com.stefick.zeljade.core.dto.CategoriesDTO
+import com.stefick.zeljade.core.dto.CompendiumDTO
 import com.stefick.zeljade.core.models.*
 
 object Mocks {
 
 
     @JvmStatic
-    fun getMockCompendium(): CompendiumResponse {
-        val data = CategoriesResponse(
+    fun getMockCompendium(): CompendiumDTO {
+        val data = CategoriesDTO(
             creatures = getMockCreaturesResponse(),
             equipment = arrayListOf(getMockCategoryResponse("equipment")),
             materials = arrayListOf(getMockCategoryResponse("materials")),
             monsters = arrayListOf(getMockCategoryResponse("monsters")),
             treasure = arrayListOf(getMockCategoryResponse("treasure"))
         )
-        return CompendiumResponse(data)
+        return CompendiumDTO(data)
     }
 
     @JvmStatic

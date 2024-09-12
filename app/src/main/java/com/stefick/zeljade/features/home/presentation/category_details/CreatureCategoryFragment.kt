@@ -33,12 +33,12 @@ class CreatureCategoryFragment : BaseFragment<FragmentCategoryItemBinding>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        model.categories.value?.data?.creatures?.let { displayCreatures(it) }
-
-        model.categories.observe(viewLifecycleOwner) { response ->
-            response.data.creatures?.let { displayCreatures(it) }
-        }
+//
+//        model.categories.value?.data?.creatures?.let { displayCreatures(it) }
+//
+//        model.categories.observe(viewLifecycleOwner) { response ->
+//            response.data.creatures?.let { displayCreatures(it) }
+//        }
     }
 
     @Deprecated("Deprecated in Java")
@@ -88,15 +88,15 @@ class CreatureCategoryFragment : BaseFragment<FragmentCategoryItemBinding>() {
         binding?.run {
             val safeContext = context ?: return@run
 
-            categoryItemList.layoutManager =
-                LinearLayoutManager(safeContext, LinearLayoutManager.VERTICAL, false)
-
-            adapter = CategoryItemDetailsAdapter(items) { id ->
-                (activity as HomeActivity).changeFragment(
-                    CompendiumItemDetailsFragment.newInstance(id)
-                )
-            }
-            categoryItemList.adapter = adapter
+//            categoryItemList.layoutManager =
+//                LinearLayoutManager(safeContext, LinearLayoutManager.VERTICAL, false)
+//
+//            adapter = CategoryItemDetailsAdapter(items) { id ->
+//                (activity as HomeActivity).changeFragment(
+//                    CompendiumItemDetailsFragment.newInstance(id)
+//                )
+//            }
+//            categoryItemList.adapter = adapter
         }
     }
 

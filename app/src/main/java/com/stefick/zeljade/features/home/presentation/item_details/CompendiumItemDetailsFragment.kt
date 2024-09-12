@@ -12,14 +12,14 @@ import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.bumptech.glide.Glide
 import com.stefick.zeljade.R
 import com.stefick.zeljade.core.api.CompendiumRemoteService
+import com.stefick.zeljade.core.mappers.CompendiumEntryMapper
+import com.stefick.zeljade.core.mappers.CompendiumMapper
 import com.stefick.zeljade.core.models.EntryResponse
-import com.stefick.zeljade.core.network.base.ErrorResponse
 import com.stefick.zeljade.core.repository.CompendiumRepository
 import com.stefick.zeljade.custom.shared.extensions.capitalizeWords
 import com.stefick.zeljade.databinding.FragmentCompendiumItemDetailsBinding
 import com.stefick.zeljade.features.base.BaseFragment
 import com.stefick.zeljade.features.home.presentation.item_details.adapter.SpecsListAdapter
-import kotlin.math.roundToInt
 
 class CompendiumItemDetailsFragment : BaseFragment<FragmentCompendiumItemDetailsBinding>(),
     EntryViewContract {
@@ -29,12 +29,17 @@ class CompendiumItemDetailsFragment : BaseFragment<FragmentCompendiumItemDetails
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        presenter =
-            EntryPresenter(this, CompendiumRepository(CompendiumRemoteService()), lifecycleScope)
-
-        arguments?.apply {
-            presenter?.getEntry(getInt(ENTRY_EXTRA_KEY))
-        }
+//        presenter =
+//            EntryPresenter(
+//                this, CompendiumRepository(
+//                    compendiumMapper = CompendiumMapper(CompendiumEntryMapper()),
+//                    remoteDataSource = CompendiumRemoteService()
+//                ), lifecycleScope
+//            )
+//
+//        arguments?.apply {
+//            presenter?.getEntry(getInt(ENTRY_EXTRA_KEY))
+//        }
 
     }
 

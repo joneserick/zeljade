@@ -1,19 +1,21 @@
 package com.stefick.zeljade.core.mocks
 
+import com.stefick.zeljade.core.dto.CategoriesDTO
+import com.stefick.zeljade.core.dto.CompendiumDTO
 import com.stefick.zeljade.core.models.*
 
 object CompendiumMocks {
 
     @JvmStatic
-    fun getMockCompendium(): CompendiumResponse {
-        val data = CategoriesResponse(
+    fun getMockCompendium(): CompendiumDTO {
+        val data = CategoriesDTO(
             getMockCreaturesResponse(),
             arrayListOf(getMockCategoryResponse()),
             arrayListOf(getMockCategoryResponse()),
             arrayListOf(getMockCategoryResponse()),
             arrayListOf(getMockCategoryResponse())
         )
-        return CompendiumResponse(data)
+        return CompendiumDTO(data)
     }
 
     private fun getMockCreaturesResponse(): CreaturesResponse =

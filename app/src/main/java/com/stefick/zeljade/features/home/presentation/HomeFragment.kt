@@ -10,8 +10,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.stefick.zeljade.R
 import com.stefick.zeljade.databinding.FragmentHomeBinding
 import com.stefick.zeljade.features.base.BaseFragment
-import com.stefick.zeljade.features.home.presentation.adapter.HomeCategoryAdapter
-import com.stefick.zeljade.features.home.presentation.category_details.CategoryDetailsFragment
 
 internal class HomeFragment : BaseFragment<FragmentHomeBinding>() {
 
@@ -36,20 +34,15 @@ internal class HomeFragment : BaseFragment<FragmentHomeBinding>() {
             categories.layoutManager =
                 LinearLayoutManager(safeContext, LinearLayoutManager.HORIZONTAL, false)
 
-            model.categories.observe(viewLifecycleOwner) {
-                categories.adapter = HomeCategoryAdapter(it.data) { selectedCategory ->
-
-                    val safeActivity = activity ?: return@HomeCategoryAdapter
-
-                    (safeActivity as HomeActivity).changeFragment(
-                        CategoryDetailsFragment.newInstance(selectedCategory?.name), true
-                    )
-                }
+            model.compendium.observe(viewLifecycleOwner) {
+                Toast.makeText(requireContext(), "Requested!! ${it?.entries}", Toast.LENGTH_LONG).show()
+                println("Requested!! ${it?.entries}")
             }
 
             model.error.observe(viewLifecycleOwner) {
                 val safeActivity = activity ?: return@observe
                 Toast.makeText(safeActivity, getString(it), Toast.LENGTH_LONG).show()
+                println(it)
             }
         }
 
