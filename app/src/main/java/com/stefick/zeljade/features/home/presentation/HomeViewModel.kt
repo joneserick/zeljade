@@ -6,12 +6,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.stefick.zeljade.R
+import com.stefick.zeljade.core.models.CompendiumEntryModel
 import com.stefick.zeljade.core.models.CompendiumModel
 import com.stefick.zeljade.core.repository.ICompendiumRepository
 import com.stefick.zeljade.features.home.HomeContract
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -27,6 +29,9 @@ class HomeViewModel @Inject constructor(
     private val _compendium: MutableLiveData<CompendiumModel?> by lazy {
         MutableLiveData<CompendiumModel?>(null)
     }
+
+    private val _entry: MutableStateFlow<CompendiumEntryModel?> = MutableStateFlow(null)
+    val entry: StateFlow<CompendiumEntryModel?> = _entry.asStateFlow()
 
     private val _error: MutableLiveData<Int> by lazy {
         MutableLiveData<Int>()
@@ -53,6 +58,19 @@ class HomeViewModel @Inject constructor(
                         }
                     }
                 }
+        }
+    }
+
+    fun requestEntryData(entryId: String) {
+        viewModelScope.launch {
+            repository.requestEntryData(entryId).collect { result ->
+                when (result) {
+                    null -> Unit
+                    else -> {
+                        _entry.value = result
+                    }
+                }
+            }
         }
     }
 

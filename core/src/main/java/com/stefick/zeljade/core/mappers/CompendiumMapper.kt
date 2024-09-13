@@ -1,8 +1,6 @@
 package com.stefick.zeljade.core.mappers
 
-import com.stefick.zeljade.core.dto.ApiDTO
 import com.stefick.zeljade.core.dto.CompendiumDTO
-import com.stefick.zeljade.core.models.ApiModel
 import com.stefick.zeljade.core.models.CompendiumModel
 import javax.inject.Inject
 

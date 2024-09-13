@@ -2,15 +2,16 @@ package com.stefick.zeljade.core.di.mappers
 
 import com.stefick.zeljade.core.dto.CompendiumDTO
 import com.stefick.zeljade.core.dto.CompendiumEntryDTO
+import com.stefick.zeljade.core.dto.EntryDTO
 import com.stefick.zeljade.core.mappers.CompendiumEntryMapper
 import com.stefick.zeljade.core.mappers.CompendiumMapper
+import com.stefick.zeljade.core.mappers.EntryMapper
 import com.stefick.zeljade.core.mappers.Mapper
-import com.stefick.zeljade.core.models.CompendiumEntry
+import com.stefick.zeljade.core.models.CompendiumEntryModel
 import com.stefick.zeljade.core.models.CompendiumModel
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityRetainedComponent
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -28,14 +29,19 @@ abstract class MapperModule {
     @Singleton
     abstract fun bindCompendiumEntryMapper(
         compendiumEntryMapper: CompendiumEntryMapper
-    ): Mapper<CompendiumEntryDTO, CompendiumEntry>
+    ): Mapper<CompendiumEntryDTO, CompendiumEntryModel>
 
+    @Binds
+    @Singleton
+    abstract fun bindEntryMapper(
+        entryMapper: EntryMapper
+    ): Mapper<EntryDTO, CompendiumEntryModel>
 
     @Binds
     @Singleton
     abstract fun bindCompendiumEntry(
-        compendiumEntry: CompendiumEntry
-    ): CompendiumEntry
+        compendiumEntryModel: CompendiumEntryModel
+    ): CompendiumEntryModel
 
     @Binds
     @Singleton

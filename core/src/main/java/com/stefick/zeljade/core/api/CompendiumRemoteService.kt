@@ -1,7 +1,7 @@
 package com.stefick.zeljade.core.api
 
 import com.stefick.zeljade.core.dto.CompendiumDTO
-import com.stefick.zeljade.core.models.EntryResponse
+import com.stefick.zeljade.core.dto.EntryDTO
 import javax.inject.Inject
 
 class CompendiumRemoteService @Inject constructor(private val api: CompendiumAPI) :
@@ -10,7 +10,7 @@ class CompendiumRemoteService @Inject constructor(private val api: CompendiumAPI
     override suspend fun requestAllData(): CompendiumDTO? =
         api.requestAllData()
 
-    override suspend fun requestEntryData(entryId: Int): EntryResponse? =
+    override suspend fun requestEntryData(entryId: String): EntryDTO? =
         api.requestEntryData(entryId)
 
 }

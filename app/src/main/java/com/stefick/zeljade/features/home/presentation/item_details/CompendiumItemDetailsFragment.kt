@@ -6,16 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.core.content.ContextCompat
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView.LayoutManager
 import com.bumptech.glide.Glide
 import com.stefick.zeljade.R
-import com.stefick.zeljade.core.api.CompendiumRemoteService
-import com.stefick.zeljade.core.mappers.CompendiumEntryMapper
-import com.stefick.zeljade.core.mappers.CompendiumMapper
-import com.stefick.zeljade.core.models.EntryResponse
-import com.stefick.zeljade.core.repository.CompendiumRepository
+import com.stefick.zeljade.core.dto.EntryDTO
 import com.stefick.zeljade.custom.shared.extensions.capitalizeWords
 import com.stefick.zeljade.databinding.FragmentCompendiumItemDetailsBinding
 import com.stefick.zeljade.features.base.BaseFragment
@@ -75,7 +70,7 @@ class CompendiumItemDetailsFragment : BaseFragment<FragmentCompendiumItemDetails
         binding?.shimmerViewContainer?.stopShimmer()
     }
 
-    override fun displayEntry(entry: EntryResponse) {
+    override fun displayEntry(entry: EntryDTO) {
         setupView(entry)
     }
 
@@ -90,10 +85,10 @@ class CompendiumItemDetailsFragment : BaseFragment<FragmentCompendiumItemDetails
 
     }
 
-    private fun setupView(entry: EntryResponse) {
+    private fun setupView(entry: EntryDTO) {
         binding?.run {
             Glide.with(root)
-                .load(entry.data?.image)
+                .load(entry.data?.imageURL)
                 .centerCrop()
                 .placeholder(
                     ContextCompat.getDrawable(
@@ -127,7 +122,7 @@ class CompendiumItemDetailsFragment : BaseFragment<FragmentCompendiumItemDetails
 
     }
 
-    private fun setupSpecsList(entry: EntryResponse) {
+    private fun setupSpecsList(entry: EntryDTO) {
         binding?.run {
             entry.data?.drops?.let {
                 if (it.isNotEmpty()) {
@@ -141,27 +136,27 @@ class CompendiumItemDetailsFragment : BaseFragment<FragmentCompendiumItemDetails
             }
 
             entry.data?.apply {
-                val specs = arrayListOf<String>()
-                heartsRecovered?.let {
-                    specs.add(getString(R.string.str_hearts_recovered, "%.1f".format(it)))
-                }
-                cookingEffect?.let {
-                    specs.add(getString(R.string.str_cooking_effect, it))
-                }
-                attack?.let {
-                    specs.add(getString(R.string.str_attack, it))
-                }
-                defense?.let {
-                    specs.add(getString(R.string.str_defense, it))
-                }
-                if (!specs.isEmpty()) {
-                    itemSpecsList.apply {
-                        layoutManager = getSharedLayoutManager()
-                        adapter = SpecsListAdapter(specs)
-                        visibility = View.VISIBLE
-                    }
-                    itemSpecsLabel.visibility = View.VISIBLE
-                }
+//                val specs = arrayListOf<String>()
+//                    ?.let {
+//                    specs.add(getString(R.string.str_hearts_recovered, "%.1f".format(it)))
+//                }
+//                cookingEffect?.let {
+//                    specs.add(getString(R.string.str_cooking_effect, it))
+//                }
+//                attack?.let {
+//                    specs.add(getString(R.string.str_attack, it))
+//                }
+//                defense?.let {
+//                    specs.add(getString(R.string.str_defense, it))
+//                }
+//                if (!specs.isEmpty()) {
+//                    itemSpecsList.apply {
+//                        layoutManager = getSharedLayoutManager()
+//                        adapter = SpecsListAdapter(specs)
+//                        visibility = View.VISIBLE
+//                    }
+//                    itemSpecsLabel.visibility = View.VISIBLE
+//                }
             }
         }
 
