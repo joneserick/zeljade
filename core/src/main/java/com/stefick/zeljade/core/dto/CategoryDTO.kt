@@ -4,6 +4,6 @@ import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-class EntryDTO(
-    var data: CompendiumEntryDTO? = null
+data class CategoryDTO(
+    val data: List<CompendiumEntryDTO>? = null,
 ) : Parcelable

@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import com.stefick.zeljade.R
+import com.stefick.zeljade.core.models.CategoryModel
 import com.stefick.zeljade.core.models.CompendiumEntryModel
 import com.stefick.zeljade.core.models.CompendiumModel
 import com.stefick.zeljade.core.repository.ICompendiumRepository
@@ -32,6 +33,9 @@ class HomeViewModel @Inject constructor(
 
     private val _entry: MutableStateFlow<CompendiumEntryModel?> = MutableStateFlow(null)
     val entry: StateFlow<CompendiumEntryModel?> = _entry.asStateFlow()
+
+    private val _category: MutableStateFlow<CategoryModel?> = MutableStateFlow(null)
+    val category: StateFlow<CategoryModel?> = _category.asStateFlow()
 
     private val _error: MutableLiveData<Int> by lazy {
         MutableLiveData<Int>()
@@ -68,6 +72,19 @@ class HomeViewModel @Inject constructor(
                     null -> Unit
                     else -> {
                         _entry.value = result
+                    }
+                }
+            }
+        }
+    }
+
+    fun requestCategoryData(categoryName: CharSequence) {
+        viewModelScope.launch {
+            repository.requestCategoryData(categoryName).collect { result ->
+                when (result) {
+                    null -> Unit
+                    else -> {
+                        _category.value = result
                     }
                 }
             }

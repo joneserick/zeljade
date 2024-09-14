@@ -11,7 +11,7 @@ class EntryMapper @Inject constructor() : Mapper<EntryDTO, CompendiumEntryModel>
 
         return dto.data?.run {
             CompendiumEntryModel(
-                category = CategoryEnum.CREATURES,
+                category = CategoryEnum.fromValueOrDefault(category),
                 commonLocations = commonLocations,
                 description = description,
                 dlc = dlc,

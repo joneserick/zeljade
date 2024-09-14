@@ -1,12 +1,15 @@
 package com.stefick.zeljade.core.di.mappers
 
+import com.stefick.zeljade.core.dto.CategoryDTO
 import com.stefick.zeljade.core.dto.CompendiumDTO
 import com.stefick.zeljade.core.dto.CompendiumEntryDTO
 import com.stefick.zeljade.core.dto.EntryDTO
+import com.stefick.zeljade.core.mappers.CategoryMapper
 import com.stefick.zeljade.core.mappers.CompendiumEntryMapper
 import com.stefick.zeljade.core.mappers.CompendiumMapper
 import com.stefick.zeljade.core.mappers.EntryMapper
 import com.stefick.zeljade.core.mappers.Mapper
+import com.stefick.zeljade.core.models.CategoryModel
 import com.stefick.zeljade.core.models.CompendiumEntryModel
 import com.stefick.zeljade.core.models.CompendiumModel
 import dagger.Binds
@@ -36,6 +39,12 @@ abstract class MapperModule {
     abstract fun bindEntryMapper(
         entryMapper: EntryMapper
     ): Mapper<EntryDTO, CompendiumEntryModel>
+
+    @Binds
+    @Singleton
+    abstract fun bindCategoryMapper(
+        categoryMapper: CategoryMapper
+    ): Mapper<CategoryDTO, CategoryModel>
 
     @Binds
     @Singleton
