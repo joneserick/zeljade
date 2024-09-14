@@ -4,13 +4,13 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.stefick.zeljade.core.dto.CategoriesDTO
+import com.stefick.zeljade.core.dto.CategoryDTO
 import com.stefick.zeljade.custom.shared.extensions.capitalizeWords
 import com.stefick.zeljade.databinding.LayoutCategoryItemBinding
 import com.stefick.zeljade.features.home.models.CategoryCardItem
 
 class HomeCategoryAdapter(
-    private val categories: CategoriesDTO,
+    private val categories: CategoryDTO,
     private val onItemClick: (item: CategoryCardItem?) -> Unit
 ) :
     RecyclerView.Adapter<CategoryItemViewHolder>() {
@@ -41,45 +41,7 @@ class HomeCategoryAdapter(
     }
 
     private fun getEachCategory(): ArrayList<CategoryCardItem> {
-        return arrayListOf<CategoryCardItem>().apply {
-            categories.let { model ->
-                val creatures = model.creatures?.nonFood?.first()
-                add(
-                    CategoryCardItem(
-                        name = creatures?.category,
-                        image = creatures?.image
-                    )
-                )
-                val materials = model.materials?.first()
-                add(
-                    CategoryCardItem(
-                        name = materials?.category,
-                        image = materials?.image
-                    )
-                )
-                val monsters = model.monsters?.first()
-                add(
-                    CategoryCardItem(
-                        name = monsters?.category,
-                        image = monsters?.image
-                    )
-                )
-                val equipment = model.equipment?.first()
-                add(
-                    CategoryCardItem(
-                        name = equipment?.category,
-                        image = equipment?.image
-                    )
-                )
-                val treasure = model.treasure?.first()
-                add(
-                    CategoryCardItem(
-                        name = treasure?.category,
-                        image = treasure?.image
-                    )
-                )
-            }
-        }
+        return arrayListOf<CategoryCardItem>()
     }
 }
 
