@@ -1,16 +1,17 @@
 package com.stefick.zeljade.core.mappers
 
 import com.stefick.zeljade.core.dto.CompendiumEntryDTO
-import com.stefick.zeljade.core.models.CompendiumEntry
+import com.stefick.zeljade.core.enums.CategoryEnum
+import com.stefick.zeljade.core.models.CompendiumEntryModel
 import javax.inject.Inject
 
-class CompendiumEntryMapper @Inject constructor() : Mapper<CompendiumEntryDTO, CompendiumEntry> {
+class CompendiumEntryMapper @Inject constructor() : Mapper<CompendiumEntryDTO, CompendiumEntryModel> {
 
-    override fun toDomain(dto: CompendiumEntryDTO?): CompendiumEntry? {
+    override fun toDomain(dto: CompendiumEntryDTO?): CompendiumEntryModel? {
         if (dto == null) return null
 
-        return CompendiumEntry(
-            category = dto.category, // will be an ENUM
+        return CompendiumEntryModel(
+            category = CategoryEnum.valueOf(dto.category),
             commonLocations = dto.commonLocations,
             description = dto.description,
             dlc = dto.dlc,

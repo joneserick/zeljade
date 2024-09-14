@@ -1,8 +1,8 @@
 package com.stefick.zeljade.core.di.base
 
 import com.stefick.zeljade.core.api.CompendiumAPI
-import com.stefick.zeljade.core.network.base.DEFAULT_READ_TIMEOUT_VALUE
-import com.stefick.zeljade.core.network.base.DEFAULT_WRITE_TIMEOUT_VALUE
+import com.stefick.zeljade.core.constants.DEFAULT_READ_TIMEOUT_VALUE
+import com.stefick.zeljade.core.constants.DEFAULT_WRITE_TIMEOUT_VALUE
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

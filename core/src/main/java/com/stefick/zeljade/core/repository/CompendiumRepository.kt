@@ -3,9 +3,10 @@ package com.stefick.zeljade.core.repository
 import com.stefick.zeljade.core.api.CompendiumRemoteDataSource
 import com.stefick.zeljade.core.di.base.IoDispatcher
 import com.stefick.zeljade.core.dto.CompendiumDTO
+import com.stefick.zeljade.core.dto.EntryDTO
 import com.stefick.zeljade.core.mappers.Mapper
 import com.stefick.zeljade.core.models.CompendiumModel
-import com.stefick.zeljade.core.models.EntryResponse
+import com.stefick.zeljade.core.models.CompendiumEntryModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -15,8 +16,10 @@ import javax.inject.Inject
 class CompendiumRepository @Inject constructor(
     private val remoteDataSource: CompendiumRemoteDataSource,
     private val mapper: Mapper<CompendiumDTO, CompendiumModel>,
+    private val entryMapper: Mapper<EntryDTO, CompendiumEntryModel>,
     @IoDispatcher private val dispatcher: CoroutineDispatcher,
 ) : ICompendiumRepository {
+
     override suspend fun requestAllData(): Flow<CompendiumModel?> =
         withContext(dispatcher) {
             flow {
@@ -24,10 +27,10 @@ class CompendiumRepository @Inject constructor(
             }
         }
 
-    override suspend fun requestEntryData(entryId: Int): Flow<EntryResponse?> =
+    override suspend fun requestEntryData(entryId: String): Flow<CompendiumEntryModel?> =
         withContext(dispatcher) {
             flow {
-                emit(remoteDataSource.requestEntryData(entryId))
+                emit(entryMapper.toDomain(remoteDataSource.requestEntryData(entryId)))
             }
         }
 
