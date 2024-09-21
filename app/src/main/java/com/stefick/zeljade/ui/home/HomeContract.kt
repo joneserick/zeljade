@@ -1,4 +1,4 @@
-package com.stefick.zeljade.features.home
+package com.stefick.zeljade.ui.home
 
 sealed class HomeContract {
 
