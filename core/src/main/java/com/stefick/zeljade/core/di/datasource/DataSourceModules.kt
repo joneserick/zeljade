@@ -1,6 +1,6 @@
 package com.stefick.zeljade.core.di.datasource
 
-import com.stefick.zeljade.core.api.CompendiumRemoteDataSource
+import com.stefick.zeljade.core.api.ICompendiumRemoteDataSource
 import com.stefick.zeljade.core.api.CompendiumRemoteService
 import dagger.Binds
 import dagger.Module
@@ -15,5 +15,5 @@ abstract class DataSourceModules {
     @Binds
     @Singleton
     abstract fun bindCompendiumRemoteDataSource(remoteDataSource: CompendiumRemoteService)
-            : CompendiumRemoteDataSource
+            : ICompendiumRemoteDataSource
 }

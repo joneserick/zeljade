@@ -17,7 +17,6 @@ fun ZeljadeNavGraph(
     navController: NavHostController = rememberNavController(),
     startDestination: String = ZeljadeDestinations.HOME_ROUTE
 ) {
-
     NavHost(
         modifier = modifier,
         navController = navController,

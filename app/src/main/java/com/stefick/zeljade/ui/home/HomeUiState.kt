@@ -8,5 +8,9 @@ sealed interface HomeUiState {
         override val isLoading: Boolean
     ) : HomeUiState
 
+    data class FirstAccess(
+        override val isLoading: Boolean,
+    ) : HomeUiState
+
 
 }

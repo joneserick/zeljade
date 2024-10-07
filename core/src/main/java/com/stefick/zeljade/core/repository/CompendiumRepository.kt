@@ -1,6 +1,6 @@
 package com.stefick.zeljade.core.repository
 
-import com.stefick.zeljade.core.api.CompendiumRemoteDataSource
+import com.stefick.zeljade.core.api.ICompendiumRemoteDataSource
 import com.stefick.zeljade.core.di.base.IoDispatcher
 import com.stefick.zeljade.core.dto.CategoryDTO
 import com.stefick.zeljade.core.dto.CompendiumDTO
@@ -16,7 +16,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class CompendiumRepository @Inject constructor(
-    private val remoteDataSource: CompendiumRemoteDataSource,
+    private val remoteDataSource: ICompendiumRemoteDataSource,
     private val mapper: Mapper<CompendiumDTO, CompendiumModel>,
     private val entryMapper: Mapper<EntryDTO, CompendiumEntryModel>,
     private val categoryMapper: Mapper<CategoryDTO, CategoryModel>,

@@ -6,7 +6,7 @@ import com.stefick.zeljade.core.dto.EntryDTO
 import javax.inject.Inject
 
 class CompendiumRemoteService @Inject constructor(private val api: CompendiumAPI) :
-    CompendiumRemoteDataSource {
+    ICompendiumRemoteDataSource {
 
     override suspend fun requestAllData(): CompendiumDTO? =
         api.requestAllData()

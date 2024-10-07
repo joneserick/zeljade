@@ -18,6 +18,11 @@ fun AppZeljade() {
         val navBackStackEntry by navController.currentBackStackEntryAsState()
         val currentRoute =
             navBackStackEntry?.destination?.route ?: ZeljadeDestinations.HOME_ROUTE
+
+        ZeljadeNavGraph(
+            navController = navController,
+            startDestination = currentRoute
+        )
     }
 
 }

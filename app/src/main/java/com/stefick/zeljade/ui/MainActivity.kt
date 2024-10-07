@@ -14,7 +14,7 @@ class MainActivity : ComponentActivity() {
             return
 
         setContent {
-
+            AppZeljade()
         }
 
     }
