@@ -1,17 +1,19 @@
 package com.stefick.zeljade.core.api
 
-import com.stefick.zeljade.core.models.CompendiumResponse
-import com.stefick.zeljade.core.models.EntryResponse
-import com.stefick.zeljade.core.network.base.ErrorResponse
-import com.stefick.zeljade.core.network.base.NetworkFactory
-import com.stefick.zeljade.core.network.base.NetworkResultBase
+import com.stefick.zeljade.core.dto.CategoryDTO
+import com.stefick.zeljade.core.dto.CompendiumDTO
+import com.stefick.zeljade.core.dto.EntryDTO
+import javax.inject.Inject
 
-class CompendiumRemoteService() : NetworkFactory<CompendiumAPI>(CompendiumAPI::class.java),
-    CompendiumRemoteDataSource {
-    override suspend fun requestAllData(): NetworkResultBase<CompendiumResponse, ErrorResponse?>? =
+class CompendiumRemoteService @Inject constructor(private val api: CompendiumAPI) :
+    ICompendiumRemoteDataSource {
+
+    override suspend fun requestAllData(): CompendiumDTO? =
         api.requestAllData()
 
-    override suspend fun requestEntryData(entryId: Int): NetworkResultBase<EntryResponse, ErrorResponse?>? =
+    override suspend fun requestEntryData(entryId: String): EntryDTO? = //TODO change to CharSequence
         api.requestEntryData(entryId)
 
+    override suspend fun requestCategoryData(categoryName: CharSequence): CategoryDTO? =
+        api.requestCategoryData(categoryName.toString())
 }
